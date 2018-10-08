@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    volumes:
+      - ./server:/home/node/server
+      - /home/node/server/node_modules
+    ports:
+      - '3333:3333'
+    stdin_open: true
+    tty: true
