@@ -9,3 +9,5 @@ RUN mkdir /home/node/server/node_modules
 
 # Install app dependencies
 RUN npm install -g @sanity/cli
+
+WORKDIR /home/node
