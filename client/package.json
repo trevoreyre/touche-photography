@@ -1,0 +1,21 @@
+{
+  "name": "touche-photography-client",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Touche Photography client",
+  "main": "index.js",
+  "author": "Trevor Eyre <trevoreyre@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@sanity/client": "^0.134.2",
+    "nuxt": "^2.1.0",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {}
+}
