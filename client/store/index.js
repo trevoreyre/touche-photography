@@ -37,12 +37,13 @@ const createStore = () => {
           sanity.fetch(photosQuery),
           sanity.fetch(configQuery)
         ])
-        // console.log('nuxtServerInit', config, photos)
+
         const photosWithPurchaseOptions = photos.map(photo => ({
           ...photo,
           purchaseOptions: config.purchaseOptions
         }))
-        // console.log('photosWithPurchaseOptions', photosWithPurchaseOptions);
+        config['baseUrl'] = 'https://dev.touchephotography.com'
+
         await commit('setPhotos', photosWithPurchaseOptions)
         await commit('setConfig', config)
       }
