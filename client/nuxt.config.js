@@ -28,5 +28,13 @@ export default {
         "data-api-key": "ZjczZjI0ODQtNjc2NS00OGNhLWExNjQtYmJkOTAwYzIwNGU5NjM2NzQzMzk4NzkxNDIwOTEz"
       }
     ]
+  },
+  generate: {
+    routes: async function () {
+      const paths = await sanityClient.fetch(`
+        *[_type == 'photo'].slug.current
+      `)
+      return paths
+    }
   }
 }
