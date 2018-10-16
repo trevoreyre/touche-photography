@@ -33,16 +33,16 @@ const createStore = () => {
     },
     actions: {
       async nuxtServerInit ({ commit }) {
-        const [ photos, config ] = await Promise.all([
+        const [ photos, [ config ] ] = await Promise.all([
           sanity.fetch(photosQuery),
           sanity.fetch(configQuery)
         ])
-        console.log('nuxtServerInit', config, photos)
+        // console.log('nuxtServerInit', config, photos)
         const photosWithPurchaseOptions = photos.map(photo => ({
           ...photo,
-          purchaseOptions: config[0].purchaseOptions
+          purchaseOptions: config.purchaseOptions
         }))
-        console.log('photosWithPurchaseOptions', photosWithPurchaseOptions);
+        // console.log('photosWithPurchaseOptions', photosWithPurchaseOptions);
         await commit('setPhotos', photosWithPurchaseOptions)
         await commit('setConfig', config)
       }
