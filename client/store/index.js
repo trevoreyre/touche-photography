@@ -6,8 +6,15 @@ const photosQuery = `
   *[_type == 'photo'] {
     _id,
     title,
-    slug,
-    tags
+    "slug": slug.current,
+    tags,
+    'image': image.asset-> {
+      url,
+      'width': metadata.dimensions.width,
+      'height': metadata.dimensions.height,
+      'palette': metadata.palette,
+      'placeholder': metadata.lqip
+    }
   }
 `
 const configQuery = `
@@ -38,13 +45,17 @@ const createStore = () => {
           sanity.fetch(configQuery)
         ])
 
-        const photosWithPurchaseOptions = photos.map(photo => ({
+        const photosWithMetadata = photos.map(photo => ({
           ...photo,
+          image: {
+            ...photo.image,
+            aspectRatio: photo.image.height / photo.image.width
+          },
           purchaseOptions: config.purchaseOptions
         }))
         config['baseUrl'] = 'https://dev.touchephotography.com'
 
-        await commit('setPhotos', photosWithPurchaseOptions)
+        await commit('setPhotos', photosWithMetadata)
         await commit('setConfig', config)
       }
     }

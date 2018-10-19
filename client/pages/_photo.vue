@@ -1,11 +1,11 @@
 <template>
   <main>
-    <h1>{{ photo.title }}</h1>
+    <!-- <h1>{{ photo.title }}</h1> -->
     <button
       :data-item-name="photo.title"
       :data-item-price="photo.purchaseOptions[0].price"
       :data-item-id="photo._id"
-      :data-item-url="config.baseUrl + '/' + photo.slug.current"
+      :data-item-url="config.baseUrl + '/' + photo.slug"
       class='snipcart-add-item'
     >
       Buy ({{ photo.purchaseOptions[0].price }})
@@ -27,9 +27,7 @@ export default {
       return this.$store.state.photos;
     },
     photo() {
-      return this.photos.filter(
-        photo => photo.slug.current === this.params.photo
-      )[0];
+      return this.photos.filter(photo => photo.slug === this.params.photo)[0];
     }
   }
 };

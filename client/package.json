@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@sanity/client": "^0.134.2",
+    "@sanity/image-url": "^0.135.0",
     "nuxt": "^2.1.0"
   },
   "devDependencies": {}
