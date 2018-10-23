@@ -2,13 +2,13 @@
   <div>
     <div class='top-bar'>
       <h1>{{ config.siteName }}</h1>
-      <a href='#' class='snipcart-checkout'>
+      <!-- <a href='#' class='snipcart-checkout'>
         <div class='snipcart-summary'>
           🛒
           <span class='snipcart-total-items' /> items
           (<span class='snipcart-total-price' />)
         </div>
-      </a>
+      </a> -->
     </div>
     <nuxt />
   </div>
@@ -41,6 +41,11 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* Fix IE 11- display of main */
+main {
+  display: block;
 }
 
 .top-bar {

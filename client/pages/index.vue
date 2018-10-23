@@ -1,16 +1,10 @@
 <template>
   <main class='container'>
+    <HelloWorld msg="Touché" />
     <ul class='grid'>
       <li v-for='photo in photos' :key='photo._id' class='photo-container'>
-        <a
-          :href="'/' + photo.slug"
-          class='photo'
-          :style="{
-            'padding-bottom': photo.image.aspectRatio * 100 + '%',
-          }"
-         >
-          <img class='placeholder' :src="photo.image.placeholder">
-          <img :src="imageUrl(photo.image.url).width(416).url()">
+        <a :href="'/' + photo.slug" class='photo'>
+          <AppImage :image="photo.image" :width="416" :alt='photo.title' />
         </a>
       </li>
     </ul>
@@ -18,31 +12,26 @@
 </template>
 
 <script>
-import imageUrl from "@sanity/image-url";
-import sanity from "~/sanity";
-
-const imageUrlBuilder = imageUrl(sanity);
+import { HelloWorld } from "@trevoreyre/ui";
+import AppImage from "~/components/AppImage";
 
 export default {
   computed: {
     photos() {
-      // console.log(this.$store.state.photos);
       return this.$store.state.photos;
     },
     config() {
-      // console.log(this.$store.state.config);
       return this.$store.state.config;
     }
   },
-  methods: {
-    imageUrl: source => {
-      return imageUrlBuilder.image(source);
-    }
+  components: {
+    HelloWorld,
+    AppImage
   }
 };
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 40px auto;
   padding: 0 24px;
@@ -64,27 +53,6 @@ export default {
 
 .photo {
   display: block;
-  height: 0;
-  overflow: hidden;
   break-inside: avoid;
-  border-radius: 8px;
-}
-
-.photo img {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.photo .placeholder {
-  filter: blur(8px);
-  transform: scale(1.1);
-}
-
-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
 }
 </style>
