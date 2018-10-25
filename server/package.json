@@ -8,6 +8,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "sanity start",
+    "build": "sanity build",
     "test": "sanity check"
   },
   "dependencies": {
