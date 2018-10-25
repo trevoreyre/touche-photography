@@ -1,6 +1,5 @@
 <template>
   <main class='container'>
-    <HelloWorld msg="Touché" />
     <ul class='grid'>
       <li v-for='photo in photos' :key='photo._id' class='photo-container'>
         <a :href="'/' + photo.slug" class='photo'>
@@ -12,7 +11,7 @@
 </template>
 
 <script>
-import { HelloWorld } from "@trevoreyre/ui";
+import HelloWorld from "@trevoreyre/ui/HelloWorld";
 import AppImage from "~/components/AppImage";
 
 export default {
@@ -33,7 +32,7 @@ export default {
 
 <style scoped>
 .container {
-  margin: 40px auto;
+  margin: 96px auto;
   padding: 0 24px;
   width: 100%;
   max-width: 1344px;

@@ -1,25 +1,36 @@
 <template>
   <div>
-    <div class='top-bar'>
-      <h1>{{ config.siteName }}</h1>
-      <!-- <a href='#' class='snipcart-checkout'>
-        <div class='snipcart-summary'>
-          🛒
-          <span class='snipcart-total-items' /> items
-          (<span class='snipcart-total-price' />)
-        </div>
-      </a> -->
-    </div>
+    <bar>
+      <template slot='left'>
+        <h1 class='site-name'>{{ config.siteName }}</h1>
+      </template>
+      <template slot='right'>
+        <a href='#' class='snipcart-checkout'>
+          <div class='snipcart-summary'>
+            <IconCart />
+            <!-- <span class='snipcart-total-items' /> items -->
+            <!-- (<span class='snipcart-total-price' />) -->
+          </div>
+        </a>
+      </template>
+    </bar>
     <nuxt />
   </div>
 </template>
 
 <script>
+import Bar from "~/components/Bar";
+import { IconCart } from "~/components/Icons";
+
 export default {
   computed: {
     config() {
       return this.$store.state.config;
     }
+  },
+  components: {
+    Bar,
+    IconCart
   }
 };
 </script>
@@ -41,6 +52,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #f1f3f5;
 }
 
 /* Fix IE 11- display of main */
@@ -48,15 +60,10 @@ main {
   display: block;
 }
 
-.top-bar {
-  padding: 24px;
-  display: flex;
-  align-items: center;
-}
-
-.top-bar h1 {
-  margin: 0 auto 0 0;
+.site-name {
+  margin: 0;
   line-height: 1;
+  font-weight: 500;
 }
 
 .snipcart-checkout {
