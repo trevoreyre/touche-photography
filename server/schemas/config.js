@@ -5,6 +5,7 @@ export default {
   title: 'Config',
   type: 'document',
   icon: MdSettings,
+  __experimental_actions: ['update', 'publish'],
   fields: [
     {
       name: 'siteName',
