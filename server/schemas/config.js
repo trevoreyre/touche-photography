@@ -1,10 +1,10 @@
-import { MdSettings } from 'react-icons/md'
+import { FiSettings as IconSettings } from 'react-icons/fi'
 
 export default {
   name: 'config',
   title: 'Config',
   type: 'document',
-  icon: MdSettings,
+  icon: IconSettings,
   __experimental_actions: ['update', 'publish'],
   fields: [
     {

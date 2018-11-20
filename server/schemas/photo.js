@@ -1,10 +1,10 @@
-import { MdPhotoLibrary } from 'react-icons/md'
+import { FiImage as IconPhoto } from 'react-icons/fi'
 
 export default {
   name: 'photo',
   title: 'Photo',
   type: 'document',
-  icon: MdPhotoLibrary,
+  icon: IconPhoto,
   fields: [
     {
       name: 'title',

@@ -1,5 +1,5 @@
 import Structure from '@sanity/desk-tool/structure-builder'
-import { MdSettings } from 'react-icons/md'
+import { FiSettings as IconSettings } from 'react-icons/fi'
 
 const hiddenDocTypes = ['config']
 
@@ -13,7 +13,7 @@ export default () =>
         .filter(filterDocTypes),
       Structure.listItem()
         .title('Settings')
-        .icon(MdSettings)
+        .icon(IconSettings)
         .child(
           Structure.editor()
             .id('config')
