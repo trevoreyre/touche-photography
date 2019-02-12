@@ -10,3 +10,12 @@ services:
       - '3333:3333'
     stdin_open: true
     tty: true
+  client:
+    build: .
+    volumes:
+      - ./client:/home/node/client
+      - /home/node/client/node_modules
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
