@@ -1,7 +1,7 @@
 # Touché Photography - touchephotography.com
 
-## Currently under development
+Currently under development
 
-### [View the in-progress website](https://dev.touchephotography.com)
+[View the in-progress website](https://dev.touchephotography.com)
 
-### [See the in-progress designs](http://bit.ly/touchedesign)
+[See the in-progress designs](http://bit.ly/touchedesign)
