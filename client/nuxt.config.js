@@ -1,4 +1,7 @@
+import path from 'path'
 import sanityClient from './sanity'
+
+const appSrc = path.join(__dirname, 'src')
 
 export default {
   head: {
@@ -29,6 +32,23 @@ export default {
       }
     ]
   },
+  build: {
+    cache: true,
+    extend (config, { isServer, isDev, isClient }) {
+      config.resolve.alias['styles'] = path.join(appSrc, 'styles')
+      if (isServer) {
+        for (const rules of config.module.rules.filter(({ test }) =>
+          /\.css/.test(test.toString())
+        )) {
+          for (const rule of rules.oneOf || []) {
+            rule.use = rule.use.filter(
+              ({ loader }) => loader !== 'cache-loader'
+            )
+          }
+        }
+      }
+    }
+  },
   generate: {
     routes: async function () {
       const paths = await sanityClient.fetch(`
@@ -36,5 +56,6 @@ export default {
       `)
       return paths
     }
-  }
+  },
+  plugins: ['~/plugins/components']
 }

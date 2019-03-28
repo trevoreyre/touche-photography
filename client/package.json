@@ -15,8 +15,14 @@
   "dependencies": {
     "@sanity/client": "^0.134.2",
     "@sanity/image-url": "^0.135.0",
-    "@trevoreyre/ui": "0.0.5",
+    "@trevoreyre/autocomplete-vue": "0.0.20",
+    "@trevoreyre/ui": "0.0.12",
+    "fuse.js": "^3.3.0",
     "nuxt": "^2.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "node-sass": "^4.9.4",
+    "sass-loader": "^7.1.0",
+    "v-read-more-box": "^1.0.6"
+  }
 }

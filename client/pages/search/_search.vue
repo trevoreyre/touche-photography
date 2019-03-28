@@ -1,7 +1,7 @@
 <template>
   <main class='container'>
     <ul class='grid'>
-      <li v-for='photo in photos' :key='photo._id' class='photo-container'>
+      <li v-for='photo in results' :key='photo._id' class='photo-container'>
         <nuxt-link :to="'/' + photo.slug" class='photo'>
           <AppImage :image="photo.image" :width="416" :alt='photo.title' />
         </nuxt-link>
@@ -11,15 +11,28 @@
 </template>
 
 <script>
+import Fuse from "fuse.js";
 import AppImage from "~/components/AppImage";
 
 export default {
+  mounted() {
+    const options = {
+      shouldSort: true,
+      threshold: 0.3,
+      keys: ["tags"]
+    };
+    this.fuse = new Fuse(this.photos, options);
+    this.results = this.fuse.search(this.$route.params.search);
+  },
+  data() {
+    return {
+      fuse: null,
+      results: []
+    };
+  },
   computed: {
     photos() {
       return this.$store.state.photos;
-    },
-    config() {
-      return this.$store.state.config;
     }
   },
   components: {
@@ -28,7 +41,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .container {
   margin: 96px auto;
   padding: 0 24px;

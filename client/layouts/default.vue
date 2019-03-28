@@ -1,51 +1,68 @@
 <template>
   <div>
     <bar>
-      <template slot='left'>
-        <h1 class='site-name'>{{ config.siteName }}</h1>
+      <template slot="left">
+        <h1 class="site-name">{{ config.siteName }}</h1>
       </template>
-      <template slot='right'>
-        <a href='#' class='snipcart-checkout'>
-          <div class='snipcart-summary'>
-            <IconCart />
+      <template slot="center">
+        <!-- <Search/> -->
+        <autocomplete :search="search" :on-submit="handleSubmit"></autocomplete>
+      </template>
+      <template slot="right">
+        <a href="#" class="snipcart-checkout">
+          <div class="snipcart-summary">
+            <!-- <IconCart /> -->
             <!-- <span class='snipcart-total-items' /> items -->
             <!-- (<span class='snipcart-total-price' />) -->
           </div>
         </a>
       </template>
     </bar>
-    <nuxt />
+    <nuxt/>
   </div>
 </template>
 
 <script>
-import Bar from "~/components/Bar";
-import { IconCart } from "~/components/Icons";
+// import IconCart from "@trevoreyre/ui/IconCart";
+// import Search from "~/components/Search";
+// import Bar from "~/components/Bar";
 
 export default {
+  data() {
+    return {
+      search: input => [`${input}-1`, `${input}-2`, `${input}-3`],
+      handleSubmit: value => {
+        console.log("handleSubmit", value);
+      }
+    };
+  },
   computed: {
     config() {
       return this.$store.state.config;
     }
   },
   components: {
-    Bar,
-    IconCart
+    // IconCart,
+    // Search,
+    // Bar,
   }
 };
 </script>
 
 <style>
+:root {
+  --border-color: red;
+}
+
 html {
   box-sizing: border-box;
-  position: relative;
 }
 
 *,
 *:before,
 *:after {
   box-sizing: inherit;
-  position: inherit;
+  position: relative;
 }
 
 body {

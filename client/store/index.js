@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import sanity from "~/sanity";
 
 const photosQuery = `
-  *[_type == 'photo'] {
+  *[_type == 'photo'] | order(_createdAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -12,7 +12,6 @@ const photosQuery = `
       url,
       'width': metadata.dimensions.width,
       'height': metadata.dimensions.height,
-      'palette': metadata.palette,
       'placeholder': metadata.lqip
     }
   }
@@ -28,11 +27,15 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       photos: [],
+      tags: [],
       config: {}
     },
     mutations: {
       setPhotos (state, photos) {
         state.photos = photos
+      },
+      setTags (state, tags) {
+        state.tags = tags
       },
       setConfig (state, config) {
         state.config = config
@@ -45,17 +48,26 @@ const createStore = () => {
           sanity.fetch(configQuery)
         ])
 
-        const photosWithMetadata = photos.map(photo => ({
-          ...photo,
-          image: {
-            ...photo.image,
-            aspectRatio: photo.image.height / photo.image.width
-          },
-          purchaseOptions: config.purchaseOptions
-        }))
+        let tags = {}
+        let photosWithMetadata = []
+
+        photos.forEach(photo => {
+          photosWithMetadata.push({
+            ...photo,
+            image: {
+              ...photo.image,
+              aspectRatio: photo.image.height / photo.image.width
+            },
+            purchaseOptions: config.purchaseOptions
+          })
+          photo.tags.forEach(tag => {
+            tags[tag] = tag
+          })
+        })
         config['baseUrl'] = 'https://dev.touchephotography.com'
 
         await commit('setPhotos', photosWithMetadata)
+        await commit('setTags', Object.keys(tags).map(tag => ({ tag: tag })))
         await commit('setConfig', config)
       }
     }
