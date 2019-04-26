@@ -7,7 +7,8 @@
   "author": "Trevor Eyre <trevoreyre@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "nuxt",
+    "postinstall": "npm link @trevoreyre/ui",
+    "dev": "nuxt -p 3002",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -15,8 +16,7 @@
   "dependencies": {
     "@sanity/client": "^0.134.2",
     "@sanity/image-url": "^0.135.0",
-    "@trevoreyre/autocomplete-vue": "0.0.20",
-    "@trevoreyre/ui": "0.0.12",
+    "@trevoreyre/ui": "^0.0.14",
     "fuse.js": "^3.3.0",
     "nuxt": "^2.1.0"
   },

@@ -7,7 +7,7 @@ services:
       - ./server:/home/node/server
       - /home/node/server/node_modules
     ports:
-      - '3333:3333'
+      - '4002:4002'
     stdin_open: true
     tty: true
   client:
@@ -16,6 +16,6 @@ services:
       - ./client:/home/node/client
       - /home/node/client/node_modules
     ports:
-      - '3000:3000'
+      - '3002:3002'
     stdin_open: true
     tty: true

@@ -7,7 +7,7 @@
   "author": "Trevor Eyre <trevoreyre@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "sanity start",
+    "start": "sanity start -p 4002",
     "build": "sanity build && cp _redirects dist/_redirects",
     "test": "sanity check"
   },

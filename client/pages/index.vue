@@ -33,7 +33,7 @@ export default {
   margin: 96px auto;
   padding: 0 24px;
   width: 100%;
-  max-width: 1344px;
+  max-width: var(--content-max-width);
 }
 
 .grid {
