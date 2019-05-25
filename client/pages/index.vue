@@ -33,13 +33,13 @@ export default {
   margin: 96px auto;
   padding: 0 24px;
   width: 100%;
-  max-width: var(--content-max-width);
+  max-width: calc(var(--content-max-width) + 48px);
 }
 
 .grid {
   margin: 0;
   padding: 0;
-  column-width: 416px;
+  column-width: 325px;
   column-gap: 24px;
   list-style: none;
 }

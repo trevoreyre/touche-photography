@@ -1,11 +1,18 @@
 <template>
   <div>
-    <AppBar theme="light" size="l">
+    <AppBar theme="light" size="m">
       <!-- <h1 class="site-name">{{ config.siteName }}</h1> -->
       <div class="logo">
         <Logo />
       </div>
-      <Autocomplete :search="search" :on-submit="handleSubmit" />
+      <div class="search-container">
+        <Autocomplete
+          rounded
+          :search="search"
+          :on-submit="handleSubmit"
+          placeholder="Search"
+        />
+      </div>
       <div>
         Icons
       </div>
@@ -15,23 +22,22 @@
 </template>
 
 <script>
-// import IconCart from "@trevoreyre/ui/IconCart";
-// import Search from "~/components/Search";
 import { Autocomplete, AppBar, Button } from "@trevoreyre/ui";
 import Logo from '~/components/Logo'
 
 export default {
-  data() {
-    return {
-      search: input => [`${input}-1`, `${input}-2`, `${input}-3`, `${input}-4`],
-      handleSubmit: value => {
-        console.log("handleSubmit", value);
-      }
-    };
-  },
   computed: {
     config() {
       return this.$store.state.config;
+    }
+  },
+  methods: {
+    search(input) {
+      console.log('search')
+      return ['one', 'two']
+    },
+    handleSubmit(value) {
+      console.log("handleSubmit", value);
     }
   },
   components: {
@@ -47,7 +53,7 @@ export default {
 :root {
   --border-color: rgba(0, 0, 0, 0.12);
   --border-radius-s: 4px;
-  --spacing-s: 8px;
+  --spacing-s: 16px;
   --content-max-width: 1344px;
 }
 
@@ -76,6 +82,11 @@ main {
 
 .logo {
   height: 40px;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 496px;
 }
 
 .site-name {

@@ -4,6 +4,7 @@ import sanityClient from './sanity'
 const appSrc = path.join(__dirname, 'src')
 
 export default {
+  mode: 'spa',
   head: {
     title: 'Touché Photography',
     meta: [
@@ -57,5 +58,8 @@ export default {
       return paths
     }
   },
-  plugins: ['~/plugins/components']
+  plugins: [
+    '~/plugins/components',
+    { src: '~/plugins/nuxtClientInit', ssr: false }
+  ]
 }

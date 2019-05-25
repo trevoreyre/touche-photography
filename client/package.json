@@ -7,7 +7,6 @@
   "author": "Trevor Eyre <trevoreyre@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "postinstall": "npm link @trevoreyre/ui",
     "dev": "nuxt -p 3002",
     "build": "nuxt build",
     "start": "nuxt start",
@@ -17,12 +16,11 @@
     "@sanity/client": "^0.134.2",
     "@sanity/image-url": "^0.135.0",
     "@trevoreyre/ui": "^0.0.14",
-    "fuse.js": "^3.3.0",
-    "nuxt": "^2.1.0"
+    "fuse.js": "^3.4.4",
+    "nuxt": "^2.7.1"
   },
   "devDependencies": {
-    "node-sass": "^4.9.4",
-    "sass-loader": "^7.1.0",
-    "v-read-more-box": "^1.0.6"
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0"
   }
 }

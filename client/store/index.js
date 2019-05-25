@@ -23,55 +23,58 @@ const configQuery = `
   }
 `
 
-const createStore = () => {
-  return new Vuex.Store({
-    state: {
-      photos: [],
-      tags: [],
-      config: {}
-    },
-    mutations: {
-      setPhotos (state, photos) {
-        state.photos = photos
-      },
-      setTags (state, tags) {
-        state.tags = tags
-      },
-      setConfig (state, config) {
-        state.config = config
-      }
-    },
-    actions: {
-      async nuxtServerInit ({ commit }) {
-        const [ photos, [ config ] ] = await Promise.all([
-          sanity.fetch(photosQuery),
-          sanity.fetch(configQuery)
-        ])
+const state = () => ({
+  initialized: false,
+  photos: [],
+  tags: [],
+  config: {}
+})
 
-        let tags = {}
-        let photosWithMetadata = []
-
-        photos.forEach(photo => {
-          photosWithMetadata.push({
-            ...photo,
-            image: {
-              ...photo.image,
-              aspectRatio: photo.image.height / photo.image.width
-            },
-            purchaseOptions: config.purchaseOptions
-          })
-          photo.tags.forEach(tag => {
-            tags[tag] = tag
-          })
-        })
-        config['baseUrl'] = 'https://dev.touchephotography.com'
-
-        await commit('setPhotos', photosWithMetadata)
-        await commit('setTags', Object.keys(tags).map(tag => ({ tag: tag })))
-        await commit('setConfig', config)
-      }
-    }
-  })
+const mutations = {
+  setInitialized(state) {
+    state.initialized = true
+  },
+  setPhotos(state, photos) {
+    state.photos = photos
+  },
+  setTags(state, tags) {
+    state.tags = tags
+  },
+  setConfig(state, config) {
+    state.config = config
+  }
 }
 
-export default createStore
+const actions = {
+  async nuxtServerInit({ commit }) {
+    const [ photos, [ config ] ] = await Promise.all([
+      sanity.fetch(photosQuery),
+      sanity.fetch(configQuery)
+    ])
+
+    let tags = {}
+    let photosWithMetadata = []
+
+    photos.forEach(photo => {
+      photosWithMetadata.push({
+        ...photo,
+        image: {
+          ...photo.image,
+          aspectRatio: photo.image.height / photo.image.width
+        },
+        purchaseOptions: config.purchaseOptions
+      })
+      photo.tags.forEach(tag => {
+        tags[tag] = tag
+      })
+    })
+    config['baseUrl'] = 'https://dev.touchephotography.com'
+
+    commit('setPhotos', photosWithMetadata)
+    commit('setTags', Object.keys(tags).map(tag => ({ tag: tag })))
+    commit('setConfig', config)
+    commit('setInitialized')
+  }
+}
+
+export { state, mutations, actions }
