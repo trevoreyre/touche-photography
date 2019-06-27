@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppCss>
     <AppBar theme="light" size="m">
       <!-- <h1 class="site-name">{{ config.siteName }}</h1> -->
       <div class="logo">
@@ -9,7 +9,8 @@
         <Autocomplete
           rounded
           :search="search"
-          :on-submit="handleSubmit"
+          :get-result-value="getResultValue"
+          @submit="handleSubmit"
           placeholder="Search"
         />
       </div>
@@ -18,31 +19,55 @@
       </div>
    </AppBar>
     <nuxt/>
-  </div>
+  </AppCss>
 </template>
 
 <script>
-import { Autocomplete, AppBar, Button } from "@trevoreyre/ui";
+import Fuse from 'fuse.js'
+import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
 import Logo from '~/components/Logo'
 
+const searchOptions = {
+  shouldSort: true,
+  threshold: 0.3,
+  keys: ['tag']
+}
+
 export default {
+  mounted() {
+    this.fuse = new Fuse(this.tags, searchOptions)
+  },
+  data() {
+    return {
+      fuse: null
+    }
+  },
   computed: {
     config() {
       return this.$store.state.config;
+    },
+    tags() {
+      return this.$store.state.tags;
     }
   },
   methods: {
     search(input) {
-      console.log('search')
-      return ['one', 'two']
+      if (input === '') {
+        return []
+      }
+      return this.fuse.search(input)
     },
-    handleSubmit(value) {
-      console.log("handleSubmit", value);
+    getResultValue(result) {
+      return result.tag
+    },
+    handleSubmit(selectedResult) {
+      console.log('handleSubmit', selectedResult)
     }
   },
   components: {
-    Autocomplete,
     AppBar,
+    AppCss,
+    Autocomplete,
     Button,
     Logo
   }
@@ -51,33 +76,18 @@ export default {
 
 <style>
 :root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --color-background: #f1f3f5;
   --border-color: rgba(0, 0, 0, 0.12);
   --border-radius-s: 4px;
   --spacing-s: 16px;
   --content-max-width: 1344px;
 }
 
-html {
-  box-sizing: border-box;
-}
-
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
   position: relative;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #f1f3f5;
-}
-
-/* Fix IE 11- display of main */
-main {
-  display: block;
 }
 
 .logo {

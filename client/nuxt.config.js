@@ -35,6 +35,12 @@ export default {
   },
   build: {
     cache: true,
+    babel: {
+      babelrc: false,
+      cacheDirectory: undefined,
+      presets: ['@nuxt/babel-preset-app'],
+      sourceType: 'unambiguous'
+    },
     extend (config, { isServer, isDev, isClient }) {
       config.resolve.alias['styles'] = path.join(appSrc, 'styles')
       if (isServer) {
