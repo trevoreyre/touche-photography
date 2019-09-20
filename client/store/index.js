@@ -1,6 +1,14 @@
-import Vuex from 'vuex'
-
 import sanity from "~/sanity";
+
+// TODO: Test data
+// import photosResponse from '../test-util/photos.json'
+// import configResponse from '../test-util/config.json'
+
+// sanity.fetch = query => new Promise((resolve, reject) => {
+//   if (/.*type == 'photo'.*/g.test(query)) return resolve(photosResponse.result)
+//   if (/.*id == 'global-config'.*/g.test(query)) return resolve(configResponse.result)
+//   return reject('Unknown query')
+// })
 
 const photosQuery = `
   *[_type == 'photo'] | order(_createdAt desc) {
@@ -68,10 +76,11 @@ const actions = {
         tags[tag] = tag
       })
     })
+    // TODO: Remove hard-coded baseUrl
     config['baseUrl'] = 'https://dev.touchephotography.com'
 
     commit('setPhotos', photosWithMetadata)
-    commit('setTags', Object.keys(tags).map(tag => ({ tag: tag })))
+    commit('setTags', Object.keys(tags).map(tag => ({ tag })))
     commit('setConfig', config)
     commit('setInitialized')
   }

@@ -15,7 +15,7 @@
   "dependencies": {
     "@sanity/client": "^0.134.2",
     "@sanity/image-url": "^0.135.0",
-    "@trevoreyre/ui": "^0.0.14",
+    "@trevoreyre/ui": "^0.0.16",
     "fuse.js": "^3.4.4",
     "nuxt": "^2.7.1"
   },

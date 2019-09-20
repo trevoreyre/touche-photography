@@ -8,14 +8,15 @@
       <div class="search-container">
         <Autocomplete
           rounded
+          placeholder="Search"
+          aria-label="Search"
           :search="search"
           :get-result-value="getResultValue"
           @submit="handleSubmit"
-          placeholder="Search"
         />
       </div>
       <div>
-        Icons
+        <IconCart />
       </div>
    </AppBar>
     <nuxt/>
@@ -25,6 +26,7 @@
 <script>
 import Fuse from 'fuse.js'
 import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
+import { IconCart } from '~/components/Icons'
 import Logo from '~/components/Logo'
 
 const searchOptions = {
@@ -69,13 +71,15 @@ export default {
     AppCss,
     Autocomplete,
     Button,
+    IconCart,
     Logo
   }
 };
 </script>
 
 <style>
-:root {
+/* TODO: Increase specificity to override @trevoreyre/ui. Is there a better way to do this? */
+:root:root {
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   --color-background: #f1f3f5;
   --border-color: rgba(0, 0, 0, 0.12);
