@@ -1,11 +1,10 @@
 <template>
   <AppCss>
     <AppBar theme="light" size="m">
-      <!-- <h1 class="site-name">{{ config.siteName }}</h1> -->
-      <div class="logo">
+      <NuxtLink to="/" class="logo">
         <Logo />
-      </div>
-      <div class="search-container">
+      </NuxtLink>
+      <form class="search-container" @submit="handleFormSubmit">
         <Autocomplete
           rounded
           placeholder="Search"
@@ -13,8 +12,17 @@
           :search="search"
           :get-result-value="getResultValue"
           @submit="handleSubmit"
-        />
-      </div>
+        >
+          <template v-slot:result="{ result, props }">
+            <li v-bind="props">
+              POOP
+              <!-- <NuxtLink :to="'/search/' + result">
+                {{ result.tag }}
+              </NuxtLink> -->
+            </li>
+          </template>
+        </Autocomplete>
+      </form>
       <div>
         <IconCart />
       </div>
@@ -37,19 +45,11 @@ const searchOptions = {
 
 export default {
   mounted() {
-    this.fuse = new Fuse(this.tags, searchOptions)
+    this.fuse = new Fuse(this.$store.state.tags, searchOptions)
   },
   data() {
     return {
       fuse: null
-    }
-  },
-  computed: {
-    config() {
-      return this.$store.state.config;
-    },
-    tags() {
-      return this.$store.state.tags;
     }
   },
   methods: {
@@ -61,6 +61,9 @@ export default {
     },
     getResultValue(result) {
       return result.tag
+    },
+    handleFormSubmit(event) {
+      event.preventDefault()
     },
     handleSubmit(selectedResult) {
       console.log('handleSubmit', selectedResult)

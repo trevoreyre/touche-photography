@@ -24,6 +24,7 @@ const photosQuery = `
     }
   }
 `
+
 const configQuery = `
   *[_id == 'global-config'] {
     purchaseOptions,
