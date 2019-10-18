@@ -1,5 +1,5 @@
 <template>
-  <main class='container'>
+  <Main>
     <ul class='grid'>
       <li v-for='photo in photos' :key='photo._id' class='photo-container'>
         <nuxt-link :to="'/' + photo.slug" class='photo'>
@@ -7,11 +7,11 @@
         </nuxt-link>
       </li>
     </ul>
-  </main>
+  </Main>
 </template>
 
 <script>
-import AppImage from "~/components/AppImage";
+import Main from '~/components/Main'
 
 export default {
   computed: {
@@ -23,19 +23,12 @@ export default {
     }
   },
   components: {
-    AppImage
+    Main
   }
 };
 </script>
 
 <style scoped>
-.container {
-  margin: 96px auto;
-  padding: 0 24px;
-  width: 100%;
-  max-width: calc(var(--content-max-width) + 48px);
-}
-
 .grid {
   margin: 0;
   padding: 0;

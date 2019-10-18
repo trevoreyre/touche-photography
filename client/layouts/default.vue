@@ -4,7 +4,7 @@
       <NuxtLink to="/" class="logo">
         <Logo />
       </NuxtLink>
-      <form class="search-container" @submit="handleFormSubmit">
+      <div class="search-container">
         <Autocomplete
           rounded
           placeholder="Search"
@@ -12,21 +12,12 @@
           :search="search"
           :get-result-value="getResultValue"
           @submit="handleSubmit"
-        >
-          <template v-slot:result="{ result, props }">
-            <li v-bind="props">
-              POOP
-              <!-- <NuxtLink :to="'/search/' + result">
-                {{ result.tag }}
-              </NuxtLink> -->
-            </li>
-          </template>
-        </Autocomplete>
-      </form>
+        />
+      </div>
       <div>
         <IconCart />
       </div>
-   </AppBar>
+    </AppBar>
     <nuxt/>
   </AppCss>
 </template>
@@ -49,11 +40,13 @@ export default {
   },
   data() {
     return {
+      searchInput: '',
       fuse: null
     }
   },
   methods: {
     search(input) {
+      this.searchInput = input
       if (input === '') {
         return []
       }
@@ -62,11 +55,8 @@ export default {
     getResultValue(result) {
       return result.tag
     },
-    handleFormSubmit(event) {
-      event.preventDefault()
-    },
-    handleSubmit(selectedResult) {
-      console.log('handleSubmit', selectedResult)
+    handleSubmit({ tag } = {}) {
+      this.$router.push(`/search/${tag || this.searchInput}`)
     }
   },
   components: {

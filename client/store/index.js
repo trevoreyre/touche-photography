@@ -1,4 +1,5 @@
 import sanity from "~/sanity";
+import Fuse from 'fuse.js'
 
 // TODO: Test data
 // import photosResponse from '../test-util/photos.json'
@@ -32,57 +33,71 @@ const configQuery = `
   }
 `
 
+const searchOptions = {
+  shouldSort: true,
+  threshold: 0.3,
+  keys: ['tags']
+}
+
 const state = () => ({
   initialized: false,
+  config: {},
+  fuse: null,
   photos: [],
+  search: () => {},
   tags: [],
-  config: {}
 })
 
 const mutations = {
   setInitialized(state) {
     state.initialized = true
   },
+  setConfig(state, config) {
+    state.config = config
+  },
+  setFuse(state, fuse) {
+    state.fuse = fuse
+  },
   setPhotos(state, photos) {
     state.photos = photos
+  },
+  setSearch(state, search) {
+    state.search = search
   },
   setTags(state, tags) {
     state.tags = tags
   },
-  setConfig(state, config) {
-    state.config = config
-  }
 }
 
 const actions = {
   async nuxtServerInit({ commit }) {
-    const [ photos, [ config ] ] = await Promise.all([
+    const [ photosResult, [ config ] ] = await Promise.all([
       sanity.fetch(photosQuery),
       sanity.fetch(configQuery)
     ])
 
-    let tags = {}
-    let photosWithMetadata = []
+    const photos = photosResult.map(photo => ({
+      ...photo,
+      image: {
+        ...photo.image,
+        aspectRatio: photo.image.height / photo.image.width
+      },
+    }))
+    let tags = photos.reduce((tags, photo) => {
+      return [...tags, ...photo.tags]
+    }, [])
+    tags = [...new Set(tags)]
 
-    photos.forEach(photo => {
-      photosWithMetadata.push({
-        ...photo,
-        image: {
-          ...photo.image,
-          aspectRatio: photo.image.height / photo.image.width
-        },
-        purchaseOptions: config.purchaseOptions
-      })
-      photo.tags.forEach(tag => {
-        tags[tag] = tag
-      })
-    })
+    const fuse = new Fuse(photos, searchOptions)
+
     // TODO: Remove hard-coded baseUrl
     config['baseUrl'] = 'https://dev.touchephotography.com'
 
-    commit('setPhotos', photosWithMetadata)
-    commit('setTags', Object.keys(tags).map(tag => ({ tag })))
     commit('setConfig', config)
+    commit('setFuse', fuse)
+    commit('setPhotos', photos)
+    commit('setSearch', fuse.search)
+    commit('setTags', tags.map(tag => ({ tag })))
     commit('setInitialized')
   }
 }

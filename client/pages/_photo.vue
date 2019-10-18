@@ -1,5 +1,5 @@
 <template>
-  <main class='container'>
+  <Main>
     <button
       :data-item-price="photo.purchaseOptions[0].price"
       :data-item-id="photo._id"
@@ -8,11 +8,12 @@
     >
       Buy ({{ photo.purchaseOptions[0].price }})
     </button>
-  </main>
-
+  </Main>
 </template>
 
 <script>
+import Main from '~/components/Main'
+
 export default {
   computed: {
     config() {
@@ -23,15 +24,12 @@ export default {
         photo => photo.slug === this.$route.params.photo
       )[0];
     }
+  },
+  components: {
+    Main
   }
 };
 </script>
 
 <style scoped>
-.container {
-  margin: 40px auto;
-  padding: 0 24px;
-  width: 100%;
-  max-width: 1344px;
-}
 </style>

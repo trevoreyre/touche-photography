@@ -22,9 +22,11 @@ export default {
       type: Object,
       required: true
     },
+    src: {
+      type: String
+    },
     alt: {
       type: String,
-      default: "Missing caption"
     },
     width: {
       type: Number,
