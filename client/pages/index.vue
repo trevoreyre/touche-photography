@@ -1,8 +1,8 @@
 <template>
   <Main>
     <ul class='grid'>
-      <li v-for='photo in photos' :key='photo._id' class='photo-container'>
-        <nuxt-link :to="'/' + photo.slug" class='photo'>
+      <li v-for='photo in photos' :key='photo.id' class='photo-container'>
+        <nuxt-link :to="'/photos/' + photo.id" class='photo'>
           <AppImage :image="photo.image" :width="416" :alt='photo.title' />
         </nuxt-link>
       </li>
@@ -11,20 +11,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Main from '~/components/Main'
 
 export default {
-  computed: {
-    photos() {
-      return this.$store.state.photos;
-    },
-    config() {
-      return this.$store.state.config;
-    }
-  },
-  components: {
-    Main
-  }
+  computed: mapState(['photos', 'config']),
+  components: { Main }
 };
 </script>
 

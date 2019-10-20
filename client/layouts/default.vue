@@ -23,40 +23,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Fuse from 'fuse.js'
 import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
 import { IconCart } from '~/components/Icons'
 import Logo from '~/components/Logo'
 
-const searchOptions = {
-  shouldSort: true,
-  threshold: 0.3,
-  keys: ['tag']
-}
-
 export default {
-  mounted() {
-    this.fuse = new Fuse(this.$store.state.tags, searchOptions)
-  },
   data() {
     return {
       searchInput: '',
-      fuse: null
     }
   },
+  computed: mapGetters(['searchTags']),
   methods: {
     search(input) {
       this.searchInput = input
-      if (input === '') {
-        return []
-      }
-      return this.fuse.search(input)
+      return this.searchTags(input)
     },
     getResultValue(result) {
       return result.tag
     },
-    handleSubmit({ tag } = {}) {
-      this.$router.push(`/search/${tag || this.searchInput}`)
+    handleSubmit(result = {}) {
+      this.$router.push(`/search/${result.tag || this.searchInput}`)
     }
   },
   components: {

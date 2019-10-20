@@ -11,27 +11,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Fuse from "fuse.js";
 import Main from '~/components/Main'
 
 export default {
   mounted() {
-    this.results = this.$store.state.fuse.search(this.$route.params.query)
+    this.results = this.searchPhotos(this.query)
+  },
+  props: {
+    query: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
-      fuse: null,
       results: []
     };
   },
-  computed: {
-    photos() {
-      return this.$store.state.photos;
-    }
-  },
-  components: {
-    Main
-  }
+  computed: mapGetters(['searchPhotos']),
+  components: { Main }
 };
 </script>
 

@@ -11,11 +11,11 @@ import Fuse from 'fuse.js'
 //   return reject('Unknown query')
 // })
 
-const photosQuery = `
-  *[_type == 'photo'] | order(_createdAt desc) {
-    _id,
+const initQuery = `{
+  'photos': *[_type == 'photo'] | order(_createdAt desc) {
+    'id': _id,
     title,
-    "slug": slug.current,
+    'slug': slug.current,
     tags,
     'image': image.asset-> {
       url,
@@ -23,15 +23,24 @@ const photosQuery = `
       'height': metadata.dimensions.height,
       'placeholder': metadata.lqip
     }
-  }
-`
-
-const configQuery = `
-  *[_id == 'global-config'] {
+  },
+  'config': *[_id == 'global-config'] {
     purchaseOptions,
     siteName
   }
-`
+}`
+
+const mapPhoto = photo => ({
+  ...photo,
+  image: {
+    ...photo.image,
+    aspectRatio: photo.image.height / photo.image.width
+  },
+})
+
+const reducePhotosToTags = (tags, photo) => {
+  return [...new Set(tags.concat(photo.tags))]
+}
 
 const searchOptions = {
   shouldSort: true,
@@ -42,64 +51,56 @@ const searchOptions = {
 const state = () => ({
   initialized: false,
   config: {},
-  fuse: null,
   photos: [],
+  photosIndex: null,
+  tagsIndex: null,
   search: () => {},
-  tags: [],
 })
 
+const getters = {
+  tags: state => {
+    return state.photos.reduce(reducePhotosToTags, [])
+  },
+
+  searchTags: state => query => {
+    return state.tagsIndex.search(query)
+  },
+
+  searchPhotos: state => query => {
+    return state.photosIndex.search(query)
+  },
+
+  getPhoto: state => ({ id, slug })=> {
+    return state.photos.filter(photo => {
+      return photo.id === id || photo.slug === slug
+    })[0]
+  }
+}
+
 const mutations = {
-  setInitialized(state) {
+  initialize(state, { photos, config }) {
+    const tags = photos.reduce(reducePhotosToTags, [])
+
     state.initialized = true
-  },
-  setConfig(state, config) {
-    state.config = config
-  },
-  setFuse(state, fuse) {
-    state.fuse = fuse
-  },
-  setPhotos(state, photos) {
     state.photos = photos
-  },
-  setSearch(state, search) {
-    state.search = search
-  },
-  setTags(state, tags) {
-    state.tags = tags
+    state.config = config
+    state.photosIndex = new Fuse(photos, searchOptions)
+    state.tagsIndex = new Fuse(tags.map(tag => ({ tag })), searchOptions)
   },
 }
 
 const actions = {
   async nuxtServerInit({ commit }) {
-    const [ photosResult, [ config ] ] = await Promise.all([
-      sanity.fetch(photosQuery),
-      sanity.fetch(configQuery)
-    ])
-
-    const photos = photosResult.map(photo => ({
-      ...photo,
-      image: {
-        ...photo.image,
-        aspectRatio: photo.image.height / photo.image.width
-      },
-    }))
-    let tags = photos.reduce((tags, photo) => {
-      return [...tags, ...photo.tags]
-    }, [])
-    tags = [...new Set(tags)]
-
-    const fuse = new Fuse(photos, searchOptions)
+    const { photos, config } = await sanity.fetch(initQuery)
 
     // TODO: Remove hard-coded baseUrl
-    config['baseUrl'] = 'https://dev.touchephotography.com'
-
-    commit('setConfig', config)
-    commit('setFuse', fuse)
-    commit('setPhotos', photos)
-    commit('setSearch', fuse.search)
-    commit('setTags', tags.map(tag => ({ tag })))
-    commit('setInitialized')
+    config[0]['baseUrl'] = 'https://dev.touchephotography.com'
+    commit({
+      type: 'initialize',
+      photos: photos.map(mapPhoto),
+      config: config[0]
+    })
   }
 }
 
-export { state, mutations, actions }
+export { state, getters, mutations, actions }

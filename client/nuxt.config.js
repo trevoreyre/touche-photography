@@ -33,6 +33,13 @@ export default {
       }
     ]
   },
+  router: {
+    extendRoutes(routes) {
+      routes.forEach(route => {
+        route.props = true
+      })
+    }
+  },
   build: {
     cache: true,
     babel: {
