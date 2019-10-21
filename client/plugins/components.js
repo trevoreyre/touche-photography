@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import * as path from 'path'
+import Masonry from 'vue-masonry-css'
 import '@trevoreyre/ui/dist/ui.css'
+
+Vue.use(Masonry);
+
 
 // Globally register all components with App prefix
 const req = require.context('../components', true, /App[A-Z]\w+\.vue$/)

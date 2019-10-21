@@ -1,22 +1,17 @@
 <template>
   <Main>
-    <ul class='grid'>
-      <li v-for='photo in photos' :key='photo.id' class='photo-container'>
-        <nuxt-link :to="'/photos/' + photo.id" class='photo'>
-          <AppImage :image="photo.image" :width="416" :alt='photo.title' />
-        </nuxt-link>
-      </li>
-    </ul>
+    <PhotoGrid :photos="photos" />
   </Main>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import Main from '~/components/Main'
+import PhotoGrid from '~/components/PhotoGrid'
 
 export default {
   computed: mapState(['photos', 'config']),
-  components: { Main }
+  components: { Main, PhotoGrid }
 };
 </script>
 

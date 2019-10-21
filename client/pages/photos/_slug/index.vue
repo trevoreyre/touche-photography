@@ -21,7 +21,7 @@ import Main from '~/components/Main'
 
 export default {
   props: {
-    id: {
+    slug: {
       type: String,
       required: true
     }
@@ -30,7 +30,7 @@ export default {
     ...mapState(['config']),
     ...mapGetters(['getPhoto']),
     photo() {
-      return this.getPhoto({ id: this.id })
+      return this.getPhoto({ slug: this.slug })
     }
   },
   components: { Main }

@@ -2,7 +2,7 @@
   <Main>
     <ul class='grid'>
       <li v-for='photo in results' :key='photo._id' class='photo-container'>
-        <nuxt-link :to="'/' + photo.slug" class='photo'>
+        <nuxt-link :to="'/photos/' + photo.slug" class='photo'>
           <AppImage :image="photo.image" :width="416" :alt='photo.title' />
         </nuxt-link>
       </li>

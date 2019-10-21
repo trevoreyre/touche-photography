@@ -42,10 +42,9 @@ const reducePhotosToTags = (tags, photo) => {
   return [...new Set(tags.concat(photo.tags))]
 }
 
-const searchOptions = {
+const options = {
   shouldSort: true,
   threshold: 0.3,
-  keys: ['tags']
 }
 
 const state = () => ({
@@ -84,8 +83,10 @@ const mutations = {
     state.initialized = true
     state.photos = photos
     state.config = config
-    state.photosIndex = new Fuse(photos, searchOptions)
-    state.tagsIndex = new Fuse(tags.map(tag => ({ tag })), searchOptions)
+    state.photosIndex = new Fuse(photos, { ...options, keys: ['tags'] })
+    state.tagsIndex = new Fuse(
+      tags.map(tag => ({ tag })), { ...options, keys: ['tag'] }
+    )
   },
 }
 

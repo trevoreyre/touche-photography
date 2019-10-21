@@ -9,6 +9,7 @@
           rounded
           placeholder="Search"
           aria-label="Search"
+          :default-value="$route.params.query"
           :search="search"
           :get-result-value="getResultValue"
           @submit="handleSubmit"
@@ -46,7 +47,7 @@ export default {
     },
     handleSubmit(result = {}) {
       this.$router.push(`/search/${result.tag || this.searchInput}`)
-    }
+    },
   },
   components: {
     AppBar,
