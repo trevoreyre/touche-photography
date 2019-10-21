@@ -1,3 +1,22 @@
+<script>
+export default {
+  props: {
+    width: {
+      type: Number,
+      default: 24,
+    },
+    height: {
+      type: Number,
+      default: 24,
+    },
+    viewBox: {
+      type: String,
+      default: "0 0 24 24",
+    }
+  }
+};
+</script>
+
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -8,26 +27,3 @@
     <slot></slot>
   </svg>
 </template>
-
-<script>
-export default {
-  name: "icon",
-  props: {
-    width: {
-      type: Number,
-      default: 24,
-      required: false
-    },
-    height: {
-      type: Number,
-      default: 24,
-      required: false
-    },
-    viewBox: {
-      type: String,
-      default: "0 0 24 24",
-      required: false
-    }
-  }
-};
-</script>

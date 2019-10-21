@@ -1,15 +1,3 @@
-<template>
-  <div
-    class='image-container'
-    :style="{
-      'padding-bottom': (image.aspectRatio * 100) + '%'
-    }"
-  >
-    <img class='placeholder' :src="image.placeholder">
-    <img class='image' :src="imageUrl" :alt="alt">
-  </div>
-</template>
-
 <script>
 import sanityImageUrl from "@sanity/image-url";
 import sanity from "~/sanity";
@@ -22,19 +10,15 @@ export default {
       type: Object,
       required: true
     },
-    src: {
-      type: String
-    },
-    alt: {
-      type: String,
-    },
+    src: String,
+    alt: String,
     width: {
       type: Number,
       default: 400
     }
   },
   computed: {
-    imageUrl: function() {
+    imageUrl() {
       return urlBuilder
         .image(this.image.url)
         .width(this.width)
@@ -43,6 +27,18 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div
+    class='image-container'
+    :style="{
+      'padding-bottom': (image.aspectRatio * 100) + '%'
+    }"
+  >
+    <img class='placeholder' :src="image.placeholder">
+    <img class='image' :src="imageUrl" :alt="alt">
+  </div>
+</template>
 
 <style scoped>
 .image-container {

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import * as path from 'path'
-import Masonry from 'vue-masonry-css'
+// import Masonry from 'vue-masonry-css'
 import '@trevoreyre/ui/dist/ui.css'
 
-Vue.use(Masonry);
+// Vue.use(Masonry);
 
 
 // Globally register all components with App prefix

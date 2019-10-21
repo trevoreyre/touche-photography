@@ -1,3 +1,46 @@
+<script>
+import { mapGetters } from 'vuex'
+import Fuse from 'fuse.js'
+import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
+import { IconCart } from '~/components/icons'
+import { Logo } from '~/components'
+
+export default {
+  components: {
+    AppBar,
+    AppCss,
+    Autocomplete,
+    Button,
+    IconCart,
+    Logo
+  },
+
+  data() {
+    return {
+      searchInput: '',
+    }
+  },
+
+  computed: mapGetters(['searchTags']),
+
+  methods: {
+    search(input) {
+      this.searchInput = input
+      return this.searchTags(input)
+    },
+
+    getResultValue(result) {
+      return result.tag
+    },
+
+    handleSubmit(result = {}) {
+      this.$router.push(`/search/${result.tag || this.searchInput}`)
+    },
+  },
+
+};
+</script>
+
 <template>
   <AppCss>
     <AppBar theme="light" size="m">
@@ -23,43 +66,6 @@
   </AppCss>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-import Fuse from 'fuse.js'
-import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
-import { IconCart } from '~/components/Icons'
-import Logo from '~/components/Logo'
-
-export default {
-  data() {
-    return {
-      searchInput: '',
-    }
-  },
-  computed: mapGetters(['searchTags']),
-  methods: {
-    search(input) {
-      this.searchInput = input
-      return this.searchTags(input)
-    },
-    getResultValue(result) {
-      return result.tag
-    },
-    handleSubmit(result = {}) {
-      this.$router.push(`/search/${result.tag || this.searchInput}`)
-    },
-  },
-  components: {
-    AppBar,
-    AppCss,
-    Autocomplete,
-    Button,
-    IconCart,
-    Logo
-  }
-};
-</script>
-
 <style>
 /* TODO: Increase specificity to override @trevoreyre/ui. Is there a better way to do this? */
 :root:root {
@@ -76,7 +82,9 @@ export default {
 *:after {
   position: relative;
 }
+</style>
 
+<style scoped>
 .logo {
   height: 40px;
 }

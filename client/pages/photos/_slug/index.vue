@@ -1,31 +1,23 @@
-<template>
-  <Main>
-    <h2>Photo</h2>
-    <AppImage :image="photo.image" alt="photo.title" />
-    <button
-      v-for="purchaseOption in config.purchaseOptions"
-      :key="purchaseOption.option"
-      :data-item-price="purchaseOption.price"
-      :data-item-id="photo.id"
-      :data-item-url="config.baseUrl + '/photos/' + photo.id"
-      class='snipcart-add-item'
-    >
-      {{ purchaseOption.option }} ({{ purchaseOption.price }})
-    </button>
-  </Main>
-</template>
-
 <script>
 import { mapState, mapGetters } from 'vuex'
-import Main from '~/components/Main'
+import { Main } from '~/components'
 
 export default {
+  components: { Main },
+
   props: {
     slug: {
       type: String,
       required: true
     }
   },
+
+  data() {
+    return {
+      price: ''
+    }
+  },
+
   computed: {
     ...mapState(['config']),
     ...mapGetters(['getPhoto']),
@@ -33,9 +25,61 @@ export default {
       return this.getPhoto({ slug: this.slug })
     }
   },
-  components: { Main }
+
+  methods: {
+    handleChangePurchaseOption(event) {
+      this.price = event.target.value
+    }
+  },
+
+  mounted() {
+    this.price = this.config.purchaseOptions[0].price
+  },
 };
 </script>
 
+<template>
+  <Main>
+    <div class="container">
+      <div class="photo">
+        <AppImage :image="photo.image" alt="photo.title" :width="512" />
+      </div>
+      <div class="details">
+        <h2>{{ photo.title }}</h2>
+        <select :value="price" @change="handleChangePurchaseOption">
+          <option
+            v-for="purchaseOption in config.purchaseOptions"
+            :key="purchaseOption.option"
+            :value="purchaseOption.price"
+          >
+            {{ purchaseOption.option }} ({{ purchaseOption.price }})
+          </option>
+        </select>
+        <h3>{{ price }}</h3>
+        <button
+          :data-item-price="price"
+          :data-item-id="photo.id"
+          :data-item-url="config.baseUrl + '/photos/' + photo.slug"
+          class="snipcart-add-item"
+        >
+          Add to cart
+        </button>
+      </div>
+    </div>
+  </Main>
+</template>
+
 <style scoped>
+.container {
+  display: flex;
+}
+
+.photo {
+  margin-right: var(--spacing-m);
+  flex: 1;
+}
+
+.details {
+  flex: 1;
+}
 </style>

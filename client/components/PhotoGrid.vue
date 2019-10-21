@@ -1,5 +1,4 @@
 <script>
-
 export default {
   props: {
     photos: {
@@ -11,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <masonry
+  <!-- <masonry
     :cols="3"
     :gutter="24"
   >
@@ -20,9 +19,31 @@ export default {
         <AppImage :image="photo.image" :width="416" :alt='photo.title' />
       </NuxtLink>
     </div>
-  </masonry>
+  </masonry> -->
+  <div class="photo-grid">
+    <div v-for="photo in photos" :key="photo.id" class="photo-container">
+      <NuxtLink :to="`/photos/${photo.slug}`" class='photo'>
+        <AppImage :image="photo.image" :width="416" :alt='photo.title' />
+      </NuxtLink>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.photo-grid {
+  margin: 0;
+  padding: 0;
+  column-width: 325px;
+  column-gap: 24px;
+  list-style: none;
+}
 
+.photo-container {
+  margin: 0 0 24px;
+}
+
+.photo {
+  display: block;
+  break-inside: avoid;
+}
 </style>
