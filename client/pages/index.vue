@@ -14,5 +14,5 @@ export default {
   </Main>
 </template>
 
-<style scoped>
+<style module>
 </style>

@@ -10,26 +10,27 @@ export default {
 </script>
 
 <template>
-  <!-- <masonry
+  <masonry
     :cols="3"
     :gutter="24"
   >
-    <div v-for="photo in photos" :key="photo.id">
-      <NuxtLink :to="`/photos/${photo.slug}`" class='photo'>
+    <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
+      <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
+        <AppImage :image="photo.image" :width="416" :alt='photo.title' />
+      </NuxtLink>
+      <IconAddToCart :class="$style.icon" />
+    </div>
+  </masonry>
+  <!-- <div :class="$style.photoGrid">
+    <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
+      <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
         <AppImage :image="photo.image" :width="416" :alt='photo.title' />
       </NuxtLink>
     </div>
-  </masonry> -->
-  <div class="photo-grid">
-    <div v-for="photo in photos" :key="photo.id" class="photo-container">
-      <NuxtLink :to="`/photos/${photo.slug}`" class='photo'>
-        <AppImage :image="photo.image" :width="416" :alt='photo.title' />
-      </NuxtLink>
-    </div>
-  </div>
+  </div> -->
 </template>
 
-<style scoped>
+<style module>
 .photo-grid {
   margin: 0;
   padding: 0;
@@ -38,12 +39,17 @@ export default {
   list-style: none;
 }
 
-.photo-container {
+.cell {
   margin: 0 0 24px;
 }
 
 .photo {
   display: block;
   break-inside: avoid;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
 }
 </style>

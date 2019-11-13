@@ -39,38 +39,36 @@ export default {
 </script>
 
 <template>
-  <Main>
-    <div class="container">
-      <div class="photo">
-        <AppImage :image="photo.image" alt="photo.title" :width="512" />
-      </div>
-      <div class="details">
-        <h2>{{ photo.title }}</h2>
-        <select :value="price" @change="handleChangePurchaseOption">
-          <option
-            v-for="purchaseOption in config.purchaseOptions"
-            :key="purchaseOption.option"
-            :value="purchaseOption.price"
-          >
-            {{ purchaseOption.option }} ({{ purchaseOption.price }})
-          </option>
-        </select>
-        <h3>{{ price }}</h3>
-        <button
-          :data-item-price="price"
-          :data-item-id="photo.id"
-          :data-item-url="config.baseUrl + '/photos/' + photo.slug"
-          class="snipcart-add-item"
+  <Main :class="$style.root">
+    <div :class="$style.photo">
+      <AppImage :image="photo.image" alt="photo.title" :width="512" />
+    </div>
+    <div :class="$style.details">
+      <h2>{{ photo.title }}</h2>
+      <select :value="price" @change="handleChangePurchaseOption">
+        <option
+          v-for="purchaseOption in config.purchaseOptions"
+          :key="purchaseOption.option"
+          :value="purchaseOption.price"
         >
-          Add to cart
-        </button>
-      </div>
+          {{ purchaseOption.option }} ({{ purchaseOption.price }})
+        </option>
+      </select>
+      <h3>{{ price }}</h3>
+      <button
+        :data-item-price="price"
+        :data-item-id="photo.id"
+        :data-item-url="config.baseUrl + '/photos/' + photo.slug"
+        class="snipcart-add-item"
+      >
+        Add to cart
+      </button>
     </div>
   </Main>
 </template>
 
-<style scoped>
-.container {
+<style module>
+.root {
   display: flex;
 }
 

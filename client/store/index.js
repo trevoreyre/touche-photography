@@ -1,14 +1,13 @@
 import sanity from "~/sanity";
 import Fuse from 'fuse.js'
 
-// TODO: Test data
-// import photosResponse from '../test-util/photos.json'
-// import configResponse from '../test-util/config.json'
-
+// Test data
+// import initQueryResponse from '../test-util/initQueryResponse.json'
 // sanity.fetch = query => new Promise((resolve, reject) => {
-//   if (/.*type == 'photo'.*/g.test(query)) return resolve(photosResponse.result)
-//   if (/.*id == 'global-config'.*/g.test(query)) return resolve(configResponse.result)
-//   return reject('Unknown query')
+//   console.log('query:', query)
+//   if (query === initQuery) {
+//     return resolve(initQueryResponse.result)
+//   }
 // })
 
 const initQuery = `{
@@ -21,6 +20,7 @@ const initQuery = `{
       url,
       'width': metadata.dimensions.width,
       'height': metadata.dimensions.height,
+      'aspectRatio': metadata.dimensions.height / metadata.dimensions.width,
       'placeholder': metadata.lqip
     }
   },
@@ -29,18 +29,6 @@ const initQuery = `{
     siteName
   }
 }`
-
-const mapPhoto = photo => ({
-  ...photo,
-  image: {
-    ...photo.image,
-    aspectRatio: photo.image.height / photo.image.width
-  },
-})
-
-const reducePhotosToTags = (tags, photo) => {
-  return [...new Set(tags.concat(photo.tags))]
-}
 
 const options = {
   shouldSort: true,
@@ -52,15 +40,12 @@ const state = () => ({
   config: {},
   photos: [],
   photosIndex: null,
+  tags: [],
   tagsIndex: null,
   search: () => {},
 })
 
 const getters = {
-  tags: state => {
-    return state.photos.reduce(reducePhotosToTags, [])
-  },
-
   searchTags: state => query => {
     return state.tagsIndex.search(query)
   },
@@ -70,18 +55,22 @@ const getters = {
   },
 
   getPhoto: state => ({ id, slug })=> {
-    return state.photos.filter(photo => {
-      return photo.id === id || photo.slug === slug
-    })[0]
+    return state.photos.find(photo => {
+      if (id !== undefined) return photo.id === id
+      if (slug !== undefined) return photo.slug === slug
+    })
   }
 }
 
 const mutations = {
   initialize(state, { photos, config }) {
-    const tags = photos.reduce(reducePhotosToTags, [])
+    const tags = photos.reduce((tags, photo) => {
+      return [...new Set(tags.concat(photo.tags))]
+    }, [])
 
     state.initialized = true
     state.photos = photos
+    state.tags = tags
     state.config = config
     state.photosIndex = new Fuse(photos, { ...options, keys: ['tags'] })
     state.tagsIndex = new Fuse(
@@ -98,7 +87,7 @@ const actions = {
     config[0]['baseUrl'] = 'https://dev.touchephotography.com'
     commit({
       type: 'initialize',
-      photos: photos.map(mapPhoto),
+      photos: photos,
       config: config[0]
     })
   }

@@ -33,6 +33,7 @@ export default {
       }
     ]
   },
+  // Extend vue-router so URL params are available to components as props
   router: {
     extendRoutes(routes) {
       routes.forEach(route => {
@@ -40,6 +41,9 @@ export default {
       })
     }
   },
+  css: [
+    '@trevoreyre/ui/dist/ui.css'
+  ],
   build: {
     cache: true,
     babel: {
@@ -48,19 +52,26 @@ export default {
       presets: ['@nuxt/babel-preset-app'],
       sourceType: 'unambiguous'
     },
-    extend (config, { isServer, isDev, isClient }) {
+    loaders: {
+      cssModules: {
+        localsConvention: 'camelCaseOnly'
+      },
+    },
+    extend(config) {
       config.resolve.alias['styles'] = path.join(appSrc, 'styles')
-      if (isServer) {
-        for (const rules of config.module.rules.filter(({ test }) =>
-          /\.css/.test(test.toString())
-        )) {
-          for (const rule of rules.oneOf || []) {
-            rule.use = rule.use.filter(
-              ({ loader }) => loader !== 'cache-loader'
-            )
-          }
-        }
-      }
+
+      // TODO: I think this had something to do with getting @trevoreyre/ui CSS working
+      // if (isServer) {
+      //   for (const rules of config.module.rules.filter(({ test }) =>
+      //     /\.css/.test(test.toString())
+      //   )) {
+      //     for (const rule of rules.oneOf || []) {
+      //       rule.use = rule.use.filter(
+      //         ({ loader }) => loader !== 'cache-loader'
+      //       )
+      //     }
+      //   }
+      // }
     }
   },
   generate: {

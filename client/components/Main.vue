@@ -1,10 +1,10 @@
 <template>
-  <main class='main'>
+  <main :class="$style.main">
     <slot></slot>
   </main>
 </template>
 
-<style scoped>
+<style module>
 .main {
   margin: var(--spacing-xl) auto;
   padding: 0 var(--spacing-m);

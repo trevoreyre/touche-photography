@@ -2,7 +2,6 @@
 import { mapGetters } from 'vuex'
 import Fuse from 'fuse.js'
 import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
-import { IconCart } from '~/components/icons'
 import { Logo } from '~/components'
 
 export default {
@@ -11,7 +10,6 @@ export default {
     AppCss,
     Autocomplete,
     Button,
-    IconCart,
     Logo
   },
 
@@ -44,10 +42,10 @@ export default {
 <template>
   <AppCss>
     <AppBar theme="light" size="m">
-      <NuxtLink to="/" class="logo">
+      <NuxtLink to="/" :class="$style.logo">
         <Logo />
       </NuxtLink>
-      <div class="search-container">
+      <div :class="$style.search">
         <Autocomplete
           rounded
           placeholder="Search"
@@ -84,20 +82,14 @@ export default {
 }
 </style>
 
-<style scoped>
+<style module>
 .logo {
   height: 40px;
 }
 
-.search-container {
+.search {
   flex: 1;
   max-width: 496px;
-}
-
-.site-name {
-  margin: 0;
-  line-height: 1;
-  font-weight: 500;
 }
 
 .snipcart-checkout {

@@ -17,12 +17,18 @@ export default {
       default: 400
     }
   },
+
   computed: {
     imageUrl() {
       return urlBuilder
         .image(this.image.url)
         .width(this.width)
         .url();
+    },
+    style() {
+      return {
+        paddingBottom: `${this.image.aspectRatio * 100}%`
+      }
     }
   }
 };
@@ -30,18 +36,16 @@ export default {
 
 <template>
   <div
-    class='image-container'
-    :style="{
-      'padding-bottom': (image.aspectRatio * 100) + '%'
-    }"
+    :class="$style.appImage"
+    :style="style"
   >
-    <img class='placeholder' :src="image.placeholder">
-    <img class='image' :src="imageUrl" :alt="alt">
+    <img :class="$style.placeholder" :src="image.placeholder">
+    <img :class="$style.image" :src="imageUrl" :alt="alt">
   </div>
 </template>
 
-<style scoped>
-.image-container {
+<style module>
+.app-image {
   border-radius: 8px;
   height: 0;
   overflow: hidden;
