@@ -6,9 +6,9 @@
 
 <style module>
 .main {
-  margin: var(--spacing-xl) auto;
-  padding: 0 var(--spacing-m);
+  margin: var(--spacing-4xl) auto;
+  padding: 0 var(--spacing-sm);
   width: 100%;
-  max-width: calc(var(--content-max-width) + 2 * var(--spacing-m));
+  max-width: calc(var(--content-max-width) + 2 * var(--spacing-sm));
 }
 </style>

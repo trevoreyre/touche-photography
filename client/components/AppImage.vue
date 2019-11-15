@@ -1,10 +1,12 @@
 <script>
 import sanityImageUrl from "@sanity/image-url";
 import sanity from "~/sanity";
+import { marginMixin } from '~/util/spacing'
 
 const urlBuilder = sanityImageUrl(sanity);
 
 export default {
+  mixins: [marginMixin],
   props: {
     image: {
       type: Object,
@@ -15,7 +17,7 @@ export default {
     width: {
       type: Number,
       default: 400
-    }
+    },
   },
 
   computed: {
@@ -29,14 +31,14 @@ export default {
       return {
         paddingBottom: `${this.image.aspectRatio * 100}%`
       }
-    }
+    },
   }
 };
 </script>
 
 <template>
   <div
-    :class="$style.appImage"
+    :class="[$style.appImage, marginClass]"
     :style="style"
   >
     <img :class="$style.placeholder" :src="image.placeholder">
@@ -46,7 +48,7 @@ export default {
 
 <style module>
 .app-image {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   height: 0;
   overflow: hidden;
 }

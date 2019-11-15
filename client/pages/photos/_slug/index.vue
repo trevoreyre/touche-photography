@@ -41,7 +41,7 @@ export default {
 <template>
   <Main :class="$style.root">
     <div :class="$style.photo">
-      <AppImage :image="photo.image" alt="photo.title" :width="512" />
+      <AppImage :image="photo.image" alt="photo.title" :width="512" mb="lg" mr="3xl" mt="7xl" />
     </div>
     <div :class="$style.details">
       <h2>{{ photo.title }}</h2>
@@ -73,7 +73,7 @@ export default {
 }
 
 .photo {
-  margin-right: var(--spacing-m);
+  margin-right: var(--spacing-sm);
   flex: 1;
 }
 
