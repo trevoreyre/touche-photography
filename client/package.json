@@ -17,6 +17,7 @@
     "@sanity/image-url": "^0.140.15",
     "@trevoreyre/ui": "^0.0.16",
     "fuse.js": "^3.4.5",
+    "lodash": "^4.17.15",
     "nuxt": "^2.10.1",
     "vue-masonry-css": "^1.0.3"
   },

@@ -7,9 +7,11 @@
   "author": "Trevor Eyre <trevoreyre@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "sanity start --port 4002",
+    "start": "sanity start",
     "build": "sanity build && cp _redirects dist/_redirects",
-    "test": "sanity check"
+    "test": "sanity check",
+    "login": "sanity login",
+    "deploy": "sanity deploy"
   },
   "dependencies": {
     "@sanity/base": "^0.144.1",

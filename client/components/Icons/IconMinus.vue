@@ -8,6 +8,6 @@ export default {
 
 <template>
   <svg v-bind="iconProps">
-    <path d="M13 5a1 1 0 10-2 0v6H5a1 1 0 100 2h6v6a1 1 0 102 0v-6h6a1 1 0 100-2h-6V5z" />
+    <path d="M4 12a1 1 0 011-1h14a1 1 0 110 2H5a1 1 0 01-1-1z" />
   </svg>
 </template>

@@ -18,7 +18,7 @@ export default {
       <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
         <AppImage :image="photo.image" :width="416" :alt='photo.title' />
       </NuxtLink>
-      <IconAddToCart :class="$style.icon" />
+      <!-- <IconAddToCart :class="$style.icon" /> -->
     </div>
   </masonry>
   <!-- <div :class="$style.photoGrid">

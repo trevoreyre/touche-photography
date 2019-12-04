@@ -1,12 +1,12 @@
 <script>
 import sanityImageUrl from "@sanity/image-url";
 import sanity from "~/sanity";
-import { marginMixin } from '~/util/spacing'
+import { spacing } from '@trevoreyre/ui'
 
 const urlBuilder = sanityImageUrl(sanity);
 
 export default {
-  mixins: [marginMixin],
+  mixins: [spacing.marginMixin],
   props: {
     image: {
       type: Object,
@@ -48,7 +48,7 @@ export default {
 
 <style module>
 .app-image {
-  border-radius: var(--border-radius);
+  border-radius: var(--rounded);
   height: 0;
   overflow: hidden;
 }
@@ -68,6 +68,6 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 </style>

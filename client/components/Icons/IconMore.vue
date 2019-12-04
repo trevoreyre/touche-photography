@@ -8,6 +8,6 @@ export default {
 
 <template>
   <svg v-bind="iconProps">
-    <path d="M13 5a1 1 0 10-2 0v6H5a1 1 0 100 2h6v6a1 1 0 102 0v-6h6a1 1 0 100-2h-6V5z" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 7a2 2 0 100-4 2 2 0 000 4zm0 7a2 2 0 100-4 2 2 0 000 4zm2 5a2 2 0 11-4 0 2 2 0 014 0z" />
   </svg>
 </template>

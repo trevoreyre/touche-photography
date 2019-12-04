@@ -11,27 +11,14 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ],
+    // Snipcart styling. JavaScript file is included in default layout.
     link: [
-      // Snipcart styling
       {
-        href: "https://cdn.snipcart.com/themes/2.0/base/snipcart.min.css",
-        type: "text/css",
-        rel: "stylesheet"
+        href: 'https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.css',
+        type: 'text/css',
+        rel: 'stylesheet'
       }
     ],
-    script: [
-      // jQuery. Only needed for snipcart
-      {
-        src: "https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"
-      },
-      // Snipcart js
-      {
-        src: "https://cdn.snipcart.com/scripts/2.0/snipcart.js",
-        id: "snipcart",
-        "data-autopop": "false",
-        "data-api-key": "ZjczZjI0ODQtNjc2NS00OGNhLWExNjQtYmJkOTAwYzIwNGU5NjM2NzQzMzk4NzkxNDIwOTEz"
-      }
-    ]
   },
   // Extend vue-router so URL params are available to components as props
   router: {

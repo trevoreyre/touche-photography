@@ -1,11 +1,13 @@
+<script>
+import { icon } from '@trevoreyre/ui'
+
+export default {
+  mixins: [icon.iconMixin]
+}
+</script>
+
 <template>
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M5.70711 7.29289C5.31658 6.90237 4.68342 6.90237 4.29289 7.29289C3.90237 7.68342 3.90237 8.31658 4.29289 8.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L19.7071 8.70711C20.0976 8.31658 20.0976 7.68342 19.7071 7.29289C19.3166 6.90237 18.6834 6.90237 18.2929 7.29289L12 13.5858L5.70711 7.29289Z"
-      fill="black"
-      fill-opacity="0.4"
-    />
+  <svg v-bind="iconProps">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2929 8.2929c.3905-.3905 1.0237-.3905 1.4142 0L12 13.5858l5.2929-5.293c.3905-.3904 1.0237-.3904 1.4142 0 .3905.3906.3905 1.0238 0 1.4143l-6 6c-.3905.3905-1.0237.3905-1.4142 0l-6-6c-.3905-.3905-.3905-1.0237 0-1.4142z" />
   </svg>
 </template>

@@ -26,14 +26,8 @@ export default {
       title: 'Tags',
       name: 'tags',
       type: 'array',
-      of: [
-        {
-          type: 'string'
-        }
-      ],
-      options: {
-        layout: 'tags'
-      }
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' }
     },
     {
       name: 'image',
