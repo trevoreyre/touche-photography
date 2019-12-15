@@ -79,7 +79,7 @@ export default {
   --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   --color-background: #f6f9fc;
   --color-border: #e9ecef;
-  --color-brand-200: #d6fffb
+  --color-brand-200: #d6fffb;
   --color-brand-700: #009c8d;
   --color-brand-primary: #009c8d;
   --color-icon-primary: #a0aec0;
