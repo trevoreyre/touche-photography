@@ -48,7 +48,7 @@ export default {
 
 <style module>
 .app-image {
-  border-radius: var(--rounded);
+  border-radius: var(--border-radius-default);
   height: 0;
   overflow: hidden;
 }

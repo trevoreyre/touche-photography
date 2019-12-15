@@ -129,8 +129,12 @@ export default {
         <Divider mb="md" />
         <div :class="$style.summary">
           <div class="mr-4xl">
-            <H6 as="div" :class="$style.summaryMaterial">{{ selectedOption.material }}</H6>
-            <Txt2 :class="$style.summarySize">{{ displaySize(selectedSize) }}</Txt2>
+            <H6 as="div" :class="$style.summaryMaterial">
+              {{ selectedOption.material }}
+            </H6>
+            <Txt2 as="div" :class="$style.summarySize">
+              {{ displaySize(selectedSize) }}
+            </Txt2>
           </div>
           <div :class="[$style.summaryPrice, 'mr-4xl']">
             <Txt :class="$style.currency">$</Txt>
@@ -146,8 +150,10 @@ export default {
             :disabled="!selectedSize"
             class="snipcart-add-item"
             theme="primary"
+            size="lg"
+            rounded
           >
-            <IconCartAdd /> Add to cart
+            <IconCartAdd mr="3xs" /> Add to cart
           </Button>
         </div>
       </template>

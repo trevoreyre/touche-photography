@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Fuse from 'fuse.js'
-import { AppBar, AppCss, Autocomplete, Button } from "@trevoreyre/ui";
+import { AppBar, AppCss, Autocomplete, ButtonIcon } from "@trevoreyre/ui";
 import { Logo } from '~/components'
 
 export default {
@@ -9,7 +9,7 @@ export default {
     AppBar,
     AppCss,
     Autocomplete,
-    Button,
+    ButtonIcon,
     Logo
   },
 
@@ -41,7 +41,7 @@ export default {
 
 <template>
   <AppCss>
-    <AppBar theme="light" size="m">
+    <AppBar theme="light" size="md">
       <NuxtLink to="/" :class="$style.logo">
         <Logo />
       </NuxtLink>
@@ -56,9 +56,9 @@ export default {
           @submit="handleSubmit"
         />
       </div>
-      <Button class="snipcart-checkout" size="s">
-        <IconCart />
-      </Button>
+      <ButtonIcon class="snipcart-checkout" theme="secondary" rounded>
+        <IconCart /> Checkout
+      </ButtonIcon>
     </AppBar>
     <nuxt/>
     <div
@@ -79,15 +79,18 @@ export default {
   --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   --color-background: #f6f9fc;
   --color-border: #e9ecef;
-  --color-primary: #009c8d;
-  --icon-color-primary: #a0aec0;
-  --icon-color-secondary: #cbd5e0;
-  --icon-color-on-primary: #c2fff9;
+  --color-brand-200: #d6fffb
+  --color-brand-700: #009c8d;
+  --color-brand-primary: #009c8d;
+  --color-icon-primary: #a0aec0;
+  --color-icon-secondary: #cbd5e0;
+  --color-icon-on-brand-primary: #c2fff9;
 
-  --rounded-sm: 8px;
-  --rounded-md: 12px;
-  --rounded-lg: 24px;
-  --rounded: var(--rounded-md);
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 24px;
+  --border-radius-xl: 32px;
+  --border-radius-default: var(--border-radius-md);
 
   --shadow-sm: 0 4px 6px rgba(42, 51, 83, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 6px 12px rgba(42, 51, 83, 0.12), 0 3px 9px rgba(0, 0, 0, 0.06);

@@ -54,7 +54,7 @@ const getters = {
     return state.photosIndex.search(query)
   },
 
-  getPhoto: state => ({ id, slug })=> {
+  getPhoto: state => ({ id, slug }) => {
     return state.photos.find(photo => {
       if (id !== undefined) return photo.id === id
       if (slug !== undefined) return photo.slug === slug
