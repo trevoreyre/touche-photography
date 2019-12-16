@@ -49,21 +49,21 @@ export default {
     photo() {
       return this.getPhoto({ slug: this.slug })
     },
+    material() {
+      return this.selectedOption ? this.selectedOption.material : ''
+    },
+    size() {
+      return this.selectedSize ? `${this.selectedSize.width}x${this.selectedSize.height}` : ''
+    },
     description() {
-      if (this.selectedOption && this.selectedSize) {
-        return `${this.selectedOption.material} - ${this.selectedSize.width}x${this.selectedSize.height}`
-      }
-      return ''
+      return `${this.material} - ${this.size}`
     },
   },
 
   methods: {
-    handleChangePurchaseOption(event) {
-      this.price = event.target.value
-    },
     handleClickMaterial(option) {
-      this.selectedSize = null
       this.selectedOption = option
+      this.selectedSize = option.sizes[0]
     },
     handleClickSize(size) {
       this.selectedSize = size
@@ -77,10 +77,6 @@ export default {
     displaySize(size) {
       return size ? `${size.width}x${size.height}` : ''
     }
-  },
-
-  mounted() {
-    this.price = this.config.purchaseOptions[0].price
   },
 };
 </script>
@@ -112,7 +108,7 @@ export default {
       <template v-if="selectedOption">
         <H5>Size</H5>
         <Divider mb="md" />
-        <div v-if="selectedOption" :class="$style.options">
+        <div :class="$style.options">
           <Card
             v-for="size in selectedOption.sizes"
             :key="size._key"
@@ -130,10 +126,10 @@ export default {
         <div :class="$style.summary">
           <div class="mr-4xl">
             <H6 as="div" :class="$style.summaryMaterial">
-              {{ selectedOption.material }}
+              {{ material }}
             </H6>
             <Txt2 as="div" :class="$style.summarySize">
-              {{ displaySize(selectedSize) }}
+              {{ size }}
             </Txt2>
           </div>
           <div :class="[$style.summaryPrice, 'mr-4xl']">
@@ -220,12 +216,6 @@ export default {
 
 .summary-material {
   min-width: 5ch;
-}
-
-/* Reserve space for size to avoid layout jumping */
-.summary-size:empty::after {
-  content: '.';
-  visibility: hidden;
 }
 
 .summary-price {
