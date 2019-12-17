@@ -33,6 +33,10 @@ export default {
       name: 'image',
       title: 'Image',
       type: 'image',
+      options: {
+        hotspot: true,
+        storeOriginalFilename: false,
+      },
       validation: Rule => Rule.required()
     }
   ]
