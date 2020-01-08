@@ -7,9 +7,9 @@
   "author": "Trevor Eyre <trevoreyre@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "nuxt -p 3002",
+    "start": "nuxt -p 3002",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "serve": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
