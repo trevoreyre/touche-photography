@@ -1,8 +1,8 @@
 <script>
-import { spacing } from '@trevoreyre/ui'
+import { marginMixin } from '@slate-ui/core'
 
 export default {
-  mixins: [spacing.marginMixin]
+  mixins: [marginMixin]
 }
 </script>
 

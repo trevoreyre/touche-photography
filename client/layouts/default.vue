@@ -1,13 +1,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import Fuse from 'fuse.js'
-import { AppBar, AppCss, Autocomplete, ButtonIcon } from "@trevoreyre/ui";
+import { AppBar, Css, Autocomplete, ButtonIcon } from '@slate-ui/core'
 import { Logo } from '~/components'
 
 export default {
   components: {
     AppBar,
-    AppCss,
+    Css,
     Autocomplete,
     ButtonIcon,
     Logo
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <AppCss>
+  <Css>
     <AppBar theme="light" size="md">
       <NuxtLink to="/" :class="$style.logo">
         <Logo />
@@ -67,13 +67,13 @@ export default {
       data-api-key="ZjczZjI0ODQtNjc2NS00OGNhLWExNjQtYmJkOTAwYzIwNGU5NjM2NzQzMzk4NzkxNDIwOTEz"
     ></div>
     <script src="https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.js"></script>
-  </AppCss>
+  </Css>
 </template>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&display=swap');
 
-/* TODO: Increase specificity to override @trevoreyre/ui. Is there a better way to do this? */
+/* TODO: Increase specificity to override @slate-ui. Is there a better way to do this? */
 :root:root {
   /* --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; */
   --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

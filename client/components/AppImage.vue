@@ -2,12 +2,12 @@
 import get from 'lodash/get'
 import sanityImageUrl from "@sanity/image-url";
 import sanity from "~/sanity";
-import { spacing } from '@trevoreyre/ui'
+import { marginMixin } from '@slate-ui/core'
 
 const urlBuilder = sanityImageUrl(sanity);
 
 export default {
-  mixins: [spacing.marginMixin],
+  mixins: [marginMixin],
   props: {
     image: {
       type: Object,

@@ -29,7 +29,7 @@ export default {
     }
   },
   css: [
-    '@trevoreyre/ui/dist/ui.css'
+    '@slate-ui/core/style.css'
   ],
   build: {
     cache: true,

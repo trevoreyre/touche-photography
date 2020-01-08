@@ -1,8 +1,8 @@
 <script>
-import { icon } from '@trevoreyre/ui'
+import { iconMixin } from '@slate-ui/core'
 
 export default {
-  mixins: [icon.iconMixin]
+  mixins: [iconMixin]
 }
 </script>
 

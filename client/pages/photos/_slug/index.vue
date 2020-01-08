@@ -1,7 +1,7 @@
 <script>
 import defaultTo from 'lodash/defaultTo'
 import { mapState, mapGetters } from 'vuex'
-import { Badge, Button, Card, H4, H5, H6, Txt, Txt2, Overline } from '@trevoreyre/ui'
+import { Badge, Button, Card, H4, H5, H6, Txt, Txt2, Overline } from '@slate-ui/core'
 import { Divider, Main } from '~/components'
 import {
   IllustrationCanvas,
