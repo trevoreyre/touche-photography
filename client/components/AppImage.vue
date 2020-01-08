@@ -1,4 +1,5 @@
 <script>
+import get from 'lodash/get'
 import sanityImageUrl from "@sanity/image-url";
 import sanity from "~/sanity";
 import { spacing } from '@trevoreyre/ui'
@@ -18,18 +19,28 @@ export default {
       type: Number,
       default: 400
     },
+    height: {
+      type: Number,
+    }
   },
 
   computed: {
     imageUrl() {
       return urlBuilder
-        .image(this.image.url)
+        .image(this.image)
         .width(this.width)
+        .height(this.height)
         .url();
+    },
+    placeholder() {
+      return get(this.image, 'asset.metadata.lqip')
+    },
+    aspectRatio() {
+      return get(this.image, 'asset.metadata.dimensions.aspectRatio', 1)
     },
     style() {
       return {
-        paddingBottom: `${this.image.aspectRatio * 100}%`
+        paddingBottom: `${(1 / this.aspectRatio) * 100}%`
       }
     },
   }
@@ -41,7 +52,7 @@ export default {
     :class="[$style.appImage, marginClass]"
     :style="style"
   >
-    <img :class="$style.placeholder" :src="image.placeholder">
+    <img :class="$style.placeholder" :src="placeholder">
     <img :class="$style.image" :src="imageUrl" :alt="alt">
   </div>
 </template>

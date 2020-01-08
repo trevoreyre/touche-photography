@@ -10,18 +10,35 @@ import Fuse from 'fuse.js'
 //   }
 // })
 
+// const initQuery = `{
+//   'photos': *[_type == 'photo'] | order(_createdAt desc) {
+//     'id': _id,
+//     title,
+//     'slug': slug.current,
+//     tags,
+//     'image': image.asset-> {
+//       url,
+//       'width': metadata.dimensions.width,
+//       'height': metadata.dimensions.height,
+//       'aspectRatio': metadata.dimensions.height / metadata.dimensions.width,
+//       'placeholder': metadata.lqip
+//     }
+//   },
+//   'config': *[_id == 'global-config'] {
+//     purchaseOptions,
+//     siteName
+//   }
+// }`
+
 const initQuery = `{
   'photos': *[_type == 'photo'] | order(_createdAt desc) {
     'id': _id,
     title,
     'slug': slug.current,
     tags,
-    'image': image.asset-> {
-      url,
-      'width': metadata.dimensions.width,
-      'height': metadata.dimensions.height,
-      'aspectRatio': metadata.dimensions.height / metadata.dimensions.width,
-      'placeholder': metadata.lqip
+    image {
+      'asset': asset->,
+      ...
     }
   },
   'config': *[_id == 'global-config'] {
