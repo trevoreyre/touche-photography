@@ -1,0 +1,9 @@
+[build]
+  environment = { NODE_VERSION = "13" }
+  base = "client"
+  command = "echo 'placeholder'"
+  publish = "client"
+
+[context.master]
+  command = "yarn generate"
+  publish = "client/dist"
