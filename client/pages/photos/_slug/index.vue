@@ -1,5 +1,6 @@
 <script>
 import defaultTo from 'lodash/defaultTo'
+import get from 'lodash/get'
 import { mapState, mapGetters } from 'vuex'
 import { Badge, Button, Card, H4, H5, H6, Txt, Txt2, Overline } from '@slate-ui/core'
 import { Divider, Main } from '~/components'
@@ -33,45 +34,38 @@ export default {
     slug: {
       type: String,
       required: true
-    }
-  },
+    },
 
-  data() {
-    return {
-      selectedOption: null,
-      selectedSize: null,
-    }
   },
 
   computed: {
     ...mapState(['config']),
-    ...mapGetters(['getPhoto']),
+    ...mapGetters(['getPhoto', 'getPurchaseOption']),
     photo() {
       return this.getPhoto({ slug: this.slug })
     },
-    material() {
-      return this.selectedOption ? this.selectedOption.material : ''
+    selectedOption() {
+      return this.getPurchaseOption(this.$route.query.option)
     },
-    size() {
-      return this.selectedSize ? `${this.selectedSize.width}x${this.selectedSize.height}` : ''
+    selectedSize() {
+      return this.selectedOption.sizes.find(size => size._key === this.$route.query.size)
+    },
+    purchaseId() {
+      return `${this.photo.id}--${this.selectedOption.material}-${this.displaySize(this.selectedSize)}`
+    },
+    purchaseUrl() {
+      return window.location.href
     },
     description() {
-      return `${this.material} - ${this.size}`
+      return `${this.selectedOption.material} - ${this.displaySize(this.selectedSize)}`
     },
   },
 
   methods: {
-    handleClickMaterial(option) {
-      this.selectedOption = option
-      this.selectedSize = option.sizes[0]
-    },
-    handleClickSize(size) {
-      this.selectedSize = size
-    },
-    isActiveMaterial(option) {
+    isSelectedOption(option) {
       return defaultTo(this.selectedOption, '_key', '') === defaultTo(option, '_key', '')
     },
-    isActiveSize(size) {
+    isSelectedSize(size) {
       return defaultTo(this.selectedSize, '_key', '') === defaultTo(size, '_key', '')
     },
     displaySize(size) {
@@ -93,16 +87,16 @@ export default {
         <Card
           v-for="option in config.purchaseOptions"
           :key="option._key"
-          as="button"
-          :class="[$style.materialOption, { [$style.active]: isActiveMaterial(option) }]"
-          @click="handleClickMaterial(option)"
+          as="nuxt-link"
+          :class="[$style.materialOption, { [$style.active]: isSelectedOption(option) }]"
+          :to="{ query: { option: option._key, size: option.sizes[0]._key } }"
         >
           <IllustrationDigital v-if="option.material == 'Digital'" />
           <IllustrationPrint v-if="option.material == 'Print'" />
           <IllustrationCanvas v-if="option.material == 'Canvas'" />
           <IllustrationMetal v-if="option.material == 'Metal'" />
           <Overline :class="$style.material" mt="xs">{{ option.material }}</Overline>
-          <Badge v-if="isActiveMaterial(option)"><IconCheck size="sm" /></Badge>
+          <Badge v-if="isSelectedOption(option)"><IconCheck size="sm" /></Badge>
         </Card>
       </div>
       <template v-if="selectedOption">
@@ -112,36 +106,37 @@ export default {
           <Card
             v-for="size in selectedOption.sizes"
             :key="size._key"
-            as="button"
-            :class="[$style.sizeOption, { [$style.active]: isActiveSize(size) }]"
+            as="nuxt-link"
+            :class="[$style.sizeOption, { [$style.active]: isSelectedSize(size) }]"
             @click="handleClickSize(size)"
+            :to="{ query: { option: selectedOption._key, size: size._key } }"
           >
             <Txt :class="$style.size">{{ displaySize(size) }}</Txt>
             <Txt :class="$style.currency">$</Txt>
             <H4 as="div" :class="$style.price">{{ size.price }}</H4>
-            <Badge v-if="isActiveSize(size)"><IconCheck size="sm" /></Badge>
+            <Badge v-if="isSelectedSize(size)"><IconCheck size="sm" /></Badge>
           </Card>
         </div>
         <Divider mb="md" />
         <div :class="$style.summary">
           <div class="mr-4xl">
             <H6 as="div" :class="$style.summaryMaterial">
-              {{ material }}
+              {{ selectedOption.material }}
             </H6>
             <Txt2 as="div" :class="$style.summarySize">
-              {{ size }}
+              {{ selectedSize.width }}x{{ selectedSize.height }}
             </Txt2>
           </div>
           <div :class="[$style.summaryPrice, 'mr-4xl']">
             <Txt :class="$style.currency">$</Txt>
-            <H4 as="div" :class="$style.price">{{ selectedSize ? selectedSize.price : '0' }}</H4>
+            <H4 as="div" :class="$style.price">{{ selectedSize.price }}</H4>
           </div>
           <Button
-            :data-item-id="photo.id"
-            :data-item-price="selectedSize ? selectedSize.price : ''"
-            :data-item-url="'/photos/' + photo.slug"
+            :data-item-id="purchaseId"
+            :data-item-price="selectedSize.price"
+            :data-item-url="purchaseUrl"
             :data-item-description="description"
-            :data-item-image="photo.image.url"
+            :data-item-image="photo.image.asset.url"
             :data-item-name="photo.title"
             :disabled="!selectedSize"
             class="snipcart-add-item"

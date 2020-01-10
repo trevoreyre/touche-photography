@@ -4,7 +4,7 @@ import sanityClient from './sanity'
 const appSrc = path.join(__dirname, 'src')
 
 export default {
-  mode: 'spa',
+  mode: 'universal',
   head: {
     title: 'Touché Photography',
     meta: [
@@ -14,19 +14,24 @@ export default {
     // Snipcart styling. JavaScript file is included in default layout.
     link: [
       {
-        href: 'https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.css',
+        href: 'https://cdn.snipcart.com/themes/v3.0.5/default/snipcart.css',
         type: 'text/css',
         rel: 'stylesheet'
       }
     ],
   },
-  // Extend vue-router so URL params are available to components as props
   router: {
+    // Extend vue-router so URL params are available to components as props
     extendRoutes(routes) {
       routes.forEach(route => {
         route.props = true
       })
-    }
+    },
+    // TODO: Fix scroll jumping to top when navigating to same page with a query
+    // scrollBehavior(to, from, savedPosition) {
+    //   console.log('scrollBehavior', { to, from, savedPosition })
+    //   return false
+    // }
   },
   css: [
     '@slate-ui/core/style.css'

@@ -2,6 +2,7 @@ import sanity from "~/sanity";
 import Fuse from 'fuse.js'
 
 // Test data
+// TODO: Update initQueryResponse.json
 // import initQueryResponse from '../test-util/initQueryResponse.json'
 // sanity.fetch = query => new Promise((resolve, reject) => {
 //   console.log('query:', query)
@@ -76,7 +77,11 @@ const getters = {
       if (id !== undefined) return photo.id === id
       if (slug !== undefined) return photo.slug === slug
     })
-  }
+  },
+
+  getPurchaseOption: state => key => {
+    return state.config.purchaseOptions.find(option => option._key === key)
+  },
 }
 
 const mutations = {
