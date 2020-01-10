@@ -9,7 +9,7 @@
   "scripts": {
     "start": "nuxt -p 3002",
     "build": "nuxt build",
-    "serve": "nuxt start",
+    "serve": "nuxt start -p 3002",
     "generate": "nuxt generate"
   },
   "dependencies": {

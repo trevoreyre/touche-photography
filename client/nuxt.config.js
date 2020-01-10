@@ -68,9 +68,10 @@ export default {
   },
   generate: {
     routes: async function () {
-      const paths = await sanityClient.fetch(`
+      const slugs = await sanityClient.fetch(`
         *[_type == 'photo'].slug.current
       `)
+      const paths = slugs.map(slug => `photos/${slug}`)
       return paths
     }
   },
