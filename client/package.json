@@ -8,6 +8,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "nuxt -p 3002",
+    "dev": "netlify dev --command \"yarn start\" --port 3002 --targetPort 3003 --functionsPort 4005 --functions functions",
     "build": "nuxt build",
     "serve": "nuxt start -p 3002",
     "generate": "nuxt generate"

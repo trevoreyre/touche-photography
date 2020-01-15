@@ -8,6 +8,7 @@ RUN mkdir /home/node/server
 RUN mkdir /home/node/server/node_modules
 
 # Install app dependencies
-RUN npm install -g @sanity/cli
+RUN yarn global add @sanity/cli
+RUN yarn global add netlify-cli
 
 WORKDIR /home/node
