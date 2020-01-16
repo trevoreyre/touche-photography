@@ -51,10 +51,11 @@ export default {
       return this.selectedOption.sizes.find(size => size._key === this.$route.query.size)
     },
     purchaseId() {
-      return `${this.photo.id}--${this.selectedOption.material}-${this.displaySize(this.selectedSize)}`
+      return `${this.photo.id}|${this.selectedOption._key}|${this.selectedSize._key}`
     },
     purchaseUrl() {
-      return window.location.href
+      // TODO: Get URL from env
+      return `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${this.purchaseId}`
     },
     description() {
       return `${this.selectedOption.material} - ${this.displaySize(this.selectedSize)}`
