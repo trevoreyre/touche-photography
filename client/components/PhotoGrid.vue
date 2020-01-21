@@ -11,8 +11,8 @@ export default {
 
 <template>
   <masonry
-    :cols="3"
-    :gutter="24"
+    :cols="{ default: 3, 960: 2, 600: 1 }"
+    :gutter="{ default: 24, 960: 16 }"
   >
     <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
       <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">

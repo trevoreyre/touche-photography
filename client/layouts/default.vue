@@ -41,7 +41,7 @@ export default {
 
 <template>
   <Css>
-    <AppBar theme="light" size="md">
+    <AppBar :class="$style.appBar" theme="light" size="md">
       <NuxtLink to="/" :class="$style.logo">
         <Logo />
       </NuxtLink>
@@ -56,11 +56,18 @@ export default {
           @submit="handleSubmit"
         />
       </div>
-      <ButtonIcon class="snipcart-checkout" theme="secondary" rounded>
-        <IconCart /> Checkout
-      </ButtonIcon>
+      <div :class="$style.icons">
+        <ButtonIcon :class="$style.searchButton" theme="secondary" rounded>
+          <IconSearch /> Search
+        </ButtonIcon>
+        <ButtonIcon class="snipcart-checkout" theme="secondary" rounded>
+          <IconCart /> Checkout
+        </ButtonIcon>
+      </div>
     </AppBar>
+
     <nuxt/>
+
     <div
       hidden
       id="snipcart"
@@ -108,6 +115,14 @@ export default {
 </style>
 
 <style module>
+@media screen and (max-width: 960px) {
+  /* TODO: Increased specificity needed to override scoped styles. */
+  /* TODO: Refactor slate-ui styling solution. */
+  .app-bar.app-bar {
+    padding: var(--spacing-xs);
+  }
+}
+
 .logo {
   border-radius: var(--rounded);
   padding: var(--spacing-4xs);
@@ -121,12 +136,27 @@ export default {
 
 .search {
   flex: 1;
+  margin: 0 var(--spacing-lg);
   max-width: 496px;
+}
+
+.search-button.search-button {
+  display: none;
 }
 
 .snipcart-checkout {
   font-size: 24px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
+}
+
+@media screen and (max-width: 600px) {
+  .search {
+    display: none;
+  }
+
+  .search-button.search-button {
+    display: inline-block;
+  }
 }
 </style>
