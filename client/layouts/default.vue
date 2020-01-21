@@ -15,6 +15,7 @@ export default {
 
   data() {
     return {
+      searchActive: false,
       searchInput: '',
     }
   },
@@ -34,6 +35,11 @@ export default {
     handleSubmit(result = {}) {
       this.$router.push(`/search/${result.tag || this.searchInput}`)
     },
+
+    handleToggleSearch(active) {
+      console.log('handleToggleSearch:', active)
+      this.searchActive = active
+    }
   },
 
 };
@@ -41,7 +47,7 @@ export default {
 
 <template>
   <Css>
-    <AppBar :class="$style.appBar" theme="light" size="md">
+    <AppBar :class="[$style.appBar, {[$style.searchActive]: searchActive}]" theme="light" size="md">
       <NuxtLink to="/" :class="$style.logo">
         <Logo />
       </NuxtLink>
@@ -54,13 +60,14 @@ export default {
           :search="search"
           :get-result-value="getResultValue"
           @submit="handleSubmit"
+          @blur="handleToggleSearch(false)"
         />
       </div>
       <div :class="$style.icons">
-        <ButtonIcon :class="$style.searchButton" theme="secondary" rounded>
+        <ButtonIcon :class="$style.searchButton" theme="secondary" rounded @click="handleToggleSearch(true)">
           <IconSearch /> Search
         </ButtonIcon>
-        <ButtonIcon class="snipcart-checkout" theme="secondary" rounded>
+        <ButtonIcon :class="[$style.checkoutButton, 'snipcart-checkout']" theme="secondary" rounded>
           <IconCart /> Checkout
         </ButtonIcon>
       </div>
@@ -157,6 +164,22 @@ export default {
 
   .search-button.search-button {
     display: inline-block;
+  }
+
+  .search-active .search {
+    display: block;
+  }
+
+  .search-active .logo {
+    display: none;
+  }
+
+  .search-active .checkout-button {
+    display: none;
+  }
+
+  .search-active .search-button {
+    display: none;
   }
 }
 </style>

@@ -16,7 +16,7 @@
   "dependencies": {
     "@sanity/client": "^0.142.6",
     "@sanity/image-url": "^0.140.15",
-    "@slate-ui/core": "^0.0.1",
+    "@slate-ui/core": "^0.0.2",
     "fuse.js": "^3.4.5",
     "lodash": "^4.17.15",
     "nuxt": "^2.10.1",
