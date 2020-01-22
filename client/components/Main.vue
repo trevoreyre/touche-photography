@@ -14,12 +14,14 @@
 
 @media screen and (max-width: 960px) {
   .main {
+    margin: var(--spacing-3xl) auto;
     padding: 0 var(--spacing-xs);
   }
 }
 
 @media screen and (max-width: 600px) {
   .main {
+    margin: var(--spacing-2xl) auto;
     padding: 0;
   }
 }

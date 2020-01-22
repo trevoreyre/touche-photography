@@ -1,79 +1,98 @@
 <script>
-import defaultTo from 'lodash/defaultTo'
-import get from 'lodash/get'
-import { mapState, mapGetters } from 'vuex'
-import { Badge, Button, Card, H4, H5, H6, Txt, Txt2, Overline } from '@slate-ui/core'
-import { Divider, Main } from '~/components'
-import {
-  IllustrationCanvas,
-  IllustrationDigital,
-  IllustrationMetal,
-  IllustrationPrint
-} from '~/components/illustrations'
-
-export default {
-  components: {
+  import defaultTo from 'lodash/defaultTo'
+  import get from 'lodash/get'
+  import { mapState, mapGetters } from 'vuex'
+  import {
     Badge,
     Button,
     Card,
-    Divider,
     H4,
     H5,
     H6,
     Txt,
     Txt2,
     Overline,
-    Main,
+  } from '@slate-ui/core'
+  import { Divider, Main } from '~/components'
+  import {
     IllustrationCanvas,
     IllustrationDigital,
     IllustrationMetal,
-    IllustrationPrint
-  },
+    IllustrationPrint,
+  } from '~/components/illustrations'
 
-  props: {
-    slug: {
-      type: String,
-      required: true
+  export default {
+    components: {
+      Badge,
+      Button,
+      Card,
+      Divider,
+      H4,
+      H5,
+      H6,
+      Txt,
+      Txt2,
+      Overline,
+      Main,
+      IllustrationCanvas,
+      IllustrationDigital,
+      IllustrationMetal,
+      IllustrationPrint,
     },
 
-  },
+    props: {
+      slug: {
+        type: String,
+        required: true,
+      },
+    },
 
-  computed: {
-    ...mapState(['config']),
-    ...mapGetters(['getPhoto', 'getPurchaseOption']),
-    photo() {
-      return this.getPhoto({ slug: this.slug })
+    computed: {
+      ...mapState(['config']),
+      ...mapGetters(['getPhoto', 'getPurchaseOption']),
+      photo() {
+        return this.getPhoto({ slug: this.slug })
+      },
+      selectedOption() {
+        return this.getPurchaseOption(this.$route.query.option)
+      },
+      selectedSize() {
+        return this.selectedOption.sizes.find(
+          size => size._key === this.$route.query.size
+        )
+      },
+      purchaseId() {
+        return `${this.photo.id}|${this.selectedOption._key}|${this.selectedSize._key}`
+      },
+      purchaseUrl() {
+        // TODO: Get URL from env
+        return `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${this.purchaseId}`
+      },
+      description() {
+        return `${this.selectedOption.material} - ${this.displaySize(
+          this.selectedSize
+        )}`
+      },
     },
-    selectedOption() {
-      return this.getPurchaseOption(this.$route.query.option)
-    },
-    selectedSize() {
-      return this.selectedOption.sizes.find(size => size._key === this.$route.query.size)
-    },
-    purchaseId() {
-      return `${this.photo.id}|${this.selectedOption._key}|${this.selectedSize._key}`
-    },
-    purchaseUrl() {
-      // TODO: Get URL from env
-      return `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${this.purchaseId}`
-    },
-    description() {
-      return `${this.selectedOption.material} - ${this.displaySize(this.selectedSize)}`
-    },
-  },
 
-  methods: {
-    isSelectedOption(option) {
-      return defaultTo(this.selectedOption, '_key', '') === defaultTo(option, '_key', '')
+    methods: {
+      isSelectedOption(option) {
+        return (
+          defaultTo(this.selectedOption, '_key', '') ===
+          defaultTo(option, '_key', '')
+        )
+      },
+      isSelectedSize(size) {
+        return (
+          defaultTo(this.selectedSize, '_key', '') ===
+          defaultTo(size, '_key', '')
+        )
+      },
+      displaySize(size) {
+        return size ? `${size.width}x${size.height}` : ''
+      },
     },
-    isSelectedSize(size) {
-      return defaultTo(this.selectedSize, '_key', '') === defaultTo(size, '_key', '')
-    },
-    displaySize(size) {
-      return size ? `${size.width}x${size.height}` : ''
-    }
-  },
-};
+  }
 </script>
 
 <template>
@@ -89,15 +108,20 @@ export default {
           v-for="option in config.purchaseOptions"
           :key="option._key"
           as="nuxt-link"
-          :class="[$style.materialOption, { [$style.active]: isSelectedOption(option) }]"
+          :class="[
+            $style.materialOption,
+            { [$style.active]: isSelectedOption(option) },
+          ]"
           :to="{ query: { option: option._key, size: option.sizes[0]._key } }"
         >
           <IllustrationDigital v-if="option.material == 'Digital'" />
           <IllustrationPrint v-if="option.material == 'Print'" />
           <IllustrationCanvas v-if="option.material == 'Canvas'" />
           <IllustrationMetal v-if="option.material == 'Metal'" />
-          <Overline :class="$style.material" mt="xs">{{ option.material }}</Overline>
-          <Badge v-if="isSelectedOption(option)"><IconCheck size="sm" /></Badge>
+          <Overline :class="$style.material" mt="xs">{{
+            option.material
+          }}</Overline>
+          <Badge v-if="isSelectedOption(option)"><IconCheck size="sm"/></Badge>
         </Card>
       </div>
       <template v-if="selectedOption">
@@ -108,14 +132,17 @@ export default {
             v-for="size in selectedOption.sizes"
             :key="size._key"
             as="nuxt-link"
-            :class="[$style.sizeOption, { [$style.active]: isSelectedSize(size) }]"
+            :class="[
+              $style.sizeOption,
+              { [$style.active]: isSelectedSize(size) },
+            ]"
             @click="handleClickSize(size)"
             :to="{ query: { option: selectedOption._key, size: size._key } }"
           >
             <Txt :class="$style.size">{{ displaySize(size) }}</Txt>
             <Txt :class="$style.currency">$</Txt>
             <H4 as="div" :class="$style.price">{{ size.price }}</H4>
-            <Badge v-if="isSelectedSize(size)"><IconCheck size="sm" /></Badge>
+            <Badge v-if="isSelectedSize(size)"><IconCheck size="sm"/></Badge>
           </Card>
         </div>
         <Divider mb="md" />
@@ -154,71 +181,83 @@ export default {
 </template>
 
 <style module>
-.root {
-  display: flex;
-}
+  .root {
+    display: flex;
+  }
 
-.photo {
-  margin-right: var(--spacing-3xl);
-  flex: 1;
-}
+  .photo {
+    margin-right: var(--spacing-3xl);
+    flex: 1;
+  }
 
-.details {
-  flex: 1;
-}
+  .details {
+    flex: 1;
+  }
 
-.options {
-  margin-bottom: var(--spacing-3xl);
-  display: flex;
-  flex-flow: row wrap;
-}
+  .options {
+    margin-bottom: var(--spacing-3xl);
+    display: flex;
+    flex-flow: row wrap;
+  }
 
-.material-option.material-option {
-  margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
-  padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
-}
+  .material-option.material-option {
+    margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
+  }
 
-.material {
-  text-align: center;
-  color: var(--text-color-secondary);
-}
+  .material {
+    text-align: center;
+    color: var(--text-color-secondary);
+  }
 
-.size-option.size-option {
-  margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  display: flex;
-  align-items: baseline;
-}
+  .size-option.size-option {
+    margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    display: flex;
+    align-items: baseline;
+  }
 
-.size {
-  font-weight: 600;
-  margin-right: var(--spacing-3xs);
-  color: var(--text-color-secondary);
-}
+  .size {
+    font-weight: 600;
+    margin-right: var(--spacing-3xs);
+    color: var(--text-color-secondary);
+  }
 
-.currency {
-  font-weight: 600;
-  align-self: flex-start;
-}
+  .currency {
+    font-weight: 600;
+    align-self: flex-start;
+  }
 
-.active {
-  --border: var(--border-active);
-}
+  .active {
+    --border: var(--border-active);
+  }
 
-.summary {
-  display: flex;
-  align-items: center;
-}
+  .summary {
+    display: flex;
+    align-items: center;
+  }
 
-.summary-material {
-  min-width: 5ch;
-}
+  .summary-material {
+    min-width: 5ch;
+  }
 
-.summary-price {
-  display: flex;
-}
+  .summary-price {
+    display: flex;
+  }
 
-.summary-price .price {
-  min-width: 3ch;
-}
+  .summary-price .price {
+    min-width: 3ch;
+  }
+
+  @media screen and (max-width: 960px) {
+    .root {
+      display: block;
+      padding: 0 var(--spacing-xs);
+    }
+
+    .photo {
+      margin: 0 auto var(--spacing-xl);
+      max-width: 560px;
+    }
+  }
 </style>

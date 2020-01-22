@@ -11,12 +11,13 @@ export default {
 
 <template>
   <masonry
+    :class="$style.photoGrid"
     :cols="{ default: 3, 960: 2, 600: 1 }"
     :gutter="{ default: 24, 960: 16 }"
   >
     <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
       <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
-        <AppImage :image="photo.image" :width="416" :alt='photo.title' />
+        <AppImage :class="$style.image" :image="photo.image" :width="416" :alt='photo.title' />
       </NuxtLink>
       <!-- <IconAddToCart :class="$style.icon" /> -->
     </div>
@@ -51,5 +52,11 @@ export default {
 .icon {
   width: 48px;
   height: 48px;
+}
+
+@media screen and (max-width: 600px) {
+  .photo-grid .image {
+    border-radius: var(--border-radius-none);
+  }
 }
 </style>
