@@ -3,12 +3,14 @@ const Mailgun = require('mailgun-js')
 
 const mailgun = Mailgun({
   apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN
+  domain: process.env.MAILGUN_DOMAIN,
 })
 
 exports.handler = (event, context, callback) => {
-  console.log(util.inspect(event, false, null, true))
-  const { eventName, content } = event
+  const body = JSON.parse(event.body)
+  console.log(util.inspect(body, false, null, true))
+
+  const { eventName, content } = body
   if (eventName === 'order.completed') {
     const text = `
       There was a new order on Touché!
@@ -36,5 +38,15 @@ exports.handler = (event, context, callback) => {
         })
       }
     )
+  } else {
+    callback(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'applications/json',
+      },
+      body: JSON.stringify({
+        message: 'No action taken',
+      }),
+    })
   }
 }
