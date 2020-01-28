@@ -160,6 +160,8 @@ export default {
 @media screen and (max-width: 600px) {
   .search {
     display: none;
+    margin: 0;
+    max-width: 100%;
   }
 
   .search-button.search-button {

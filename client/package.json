@@ -23,6 +23,7 @@
     "vue-masonry-css": "^1.0.3"
   },
   "devDependencies": {
+    "mailgun-js": "^0.22.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0"
   }
