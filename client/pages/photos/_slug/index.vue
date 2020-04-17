@@ -6,12 +6,14 @@
     Badge,
     Button,
     Card,
+    H2,
     H4,
     H5,
     H6,
+    Overline,
+    Tag,
     Txt,
     Txt2,
-    Overline,
   } from '@slate-ui/core'
   import { Divider, Main } from '~/components'
   import {
@@ -27,17 +29,19 @@
       Button,
       Card,
       Divider,
+      H2,
       H4,
       H5,
       H6,
-      Txt,
-      Txt2,
-      Overline,
       Main,
       IllustrationCanvas,
       IllustrationDigital,
       IllustrationMetal,
       IllustrationPrint,
+      Overline,
+      Tag,
+      Txt,
+      Txt2,
     },
 
     props: {
@@ -99,6 +103,20 @@
   <Main :class="$style.root">
     <div :class="$style.photo">
       <AppImage :image="photo.image" alt="photo.title" :width="512" />
+      <H2 mt="lg" mb="xs">{{ photo.title }}</H2>
+      <Txt v-if="photo.description" mb="sm">{{ photo.description }}</Txt>
+      <div :class="$style.tagsContainer">
+        <Tag
+          v-for="tag in photo.tags"
+          :key="tag"
+          as="nuxt-link"
+          :to="'/search/' + tag"
+          rounded
+          mr="3xs"
+        >
+          {{ tag }}
+        </Tag>
+      </div>
     </div>
     <div :class="$style.details">
       <H5>Material</H5>
@@ -188,6 +206,10 @@
   .photo {
     margin-right: var(--spacing-3xl);
     flex: 1;
+  }
+
+  .tags-container {
+    margin-left: calc(-1 * var(--spacing-3xs));
   }
 
   .details {

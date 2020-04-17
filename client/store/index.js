@@ -35,6 +35,7 @@ const initQuery = `{
   'photos': *[_type == 'photo'] | order(_createdAt desc) {
     'id': _id,
     title,
+    description,
     'slug': slug.current,
     tags,
     image {
@@ -51,6 +52,7 @@ const initQuery = `{
 const options = {
   shouldSort: true,
   threshold: 0.3,
+  includeMatches: true,
 }
 
 const state = () => ({
@@ -87,6 +89,7 @@ const getters = {
 const mutations = {
   initialize(state, { photos, config }) {
     const tags = photos.reduce((tags, photo) => {
+      photo.tags = (photo.tags || []).map(tag => tag.toLowerCase().trim())
       return [...new Set(tags.concat(photo.tags))]
     }, [])
 
@@ -94,9 +97,15 @@ const mutations = {
     state.photos = photos
     state.tags = tags
     state.config = config
-    state.photosIndex = new Fuse(photos, { ...options, keys: ['tags'] })
+    state.photosIndex = new Fuse(photos, { ...options, keys: ['title', 'tags'] })
+
+    // Combine unique tags list and titles from photos for search bar
     state.tagsIndex = new Fuse(
-      tags.map(tag => ({ tag })), { ...options, keys: ['tag'] }
+      [
+        ...tags.map(tag => ({ tag })),
+        ...photos.map(photo => ({ title: photo.title.toLowerCase() })),
+      ],
+      { ...options, keys: ['title', 'tag'] }
     )
   },
 }

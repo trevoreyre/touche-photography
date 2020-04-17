@@ -29,11 +29,12 @@ export default {
     },
 
     getResultValue(result) {
-      return result.tag
+      return result.matches[0].value
     },
 
     handleSubmit(result = {}) {
-      this.$router.push(`/search/${result.tag || this.searchInput}`)
+      // TODO: If search term is a photo title, navigate directly to that photo
+      this.$router.push(`/search/${result.matches[0].value || this.searchInput}`)
     },
 
     handleToggleSearch(active) {
@@ -93,12 +94,15 @@ export default {
   --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   --color-background: #f6f9fc;
   --color-border: #e9ecef;
-  --color-brand-200: #d6fffb;
+  /* --color-brand-200: #d6fffb; */
+  --color-brand-200: #eff5f5;
   --color-brand-700: #009c8d;
   --color-brand-primary: #009c8d;
   --color-icon-primary: #a0aec0;
   --color-icon-secondary: #cbd5e0;
   --color-icon-on-brand-primary: #c2fff9;
+
+  --color-neutral-200: #edf2f7;
 
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
@@ -118,6 +122,10 @@ export default {
 *:before,
 *:after {
   position: relative;
+}
+
+.tag.tag {
+  background-color: var(--color-neutral-200);
 }
 </style>
 

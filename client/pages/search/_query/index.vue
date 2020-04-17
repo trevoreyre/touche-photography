@@ -1,9 +1,13 @@
 <script>
 import { mapGetters } from 'vuex'
+import {
+  H2,
+  Txt,
+} from '@slate-ui/core'
 import { Main, PhotoGrid } from '~/components'
 
 export default {
-  components: { Main, PhotoGrid },
+  components: { H2, Main, PhotoGrid, Txt },
 
   props: {
     query: String
@@ -24,18 +28,26 @@ export default {
   },
 
   mounted() {
-    this.results = this.searchPhotos(this.query)
+    this.results = this.searchPhotos(this.query).map(result => result.item)
   },
 };
 </script>
 
 <template>
   <Main>
-    <h2>{{ this.query }}</h2>
-    <h3>{{ this.resultsLabel }}</h3>
+    <header :class="$style.header">
+      <H2 mr="lg">{{ this.query }}</H2>
+      <Txt theme="secondary">{{ this.resultsLabel }}</Txt>
+    </header>
     <PhotoGrid :photos="results" />
   </Main>
 </template>
 
 <style module>
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--spacing-lg);
+}
 </style>
