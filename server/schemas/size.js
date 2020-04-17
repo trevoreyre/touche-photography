@@ -10,17 +10,23 @@ export default {
       name: 'width',
       title: 'Width',
       type: 'number',
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.required().integer()
     },
     {
       name: 'height',
       title: 'Height',
       type: 'number',
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.required().integer()
     },
     {
       name: 'price',
       title: 'Price',
+      type: 'number',
+      validation: Rule => Rule.required().integer()
+    },
+    {
+      name: 'shipping',
+      title: 'Shipping',
       type: 'number',
       validation: Rule => Rule.required().integer()
     }
