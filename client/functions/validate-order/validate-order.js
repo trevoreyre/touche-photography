@@ -28,11 +28,11 @@ const QUERY = `{
   'purchaseOption': ${PURCHASE_OPTION_QUERY}
 }`
 
-exports.handler = function(event, context, callback) {
+exports.handler = (event, context, callback) => {
   // Snipcart sends a GET request when crawling products
   if (event.httpMethod !== 'GET') {
     return callback(null, {
-      statusCode: 200,
+      statusCode: 400,
       body: '',
     })
   }
