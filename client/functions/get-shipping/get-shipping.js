@@ -25,10 +25,27 @@ exports.handler = (event, context, callback) => {
   }
 
   return callback(null, {
-    statusCode: 404,
+    statusCode: 200,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      error: 'Invalid eventName',
+      rates: [
+        {
+          cost: 10,
+          description: 'Ground shipping',
+        },
+        {
+          cost: 20,
+          description: 'Two day shipping',
+          guaranteedDaysToDelivery: 2,
+        },
+        {
+          cost: 30,
+          description: 'Overnight shipping',
+          guaranteedDaysToDelivery: 1,
+        },
+      ],
     }),
   })
+  {
+  }
 }
