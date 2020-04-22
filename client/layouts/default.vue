@@ -81,7 +81,7 @@ export default {
       id="snipcart"
       data-api-key="ZjczZjI0ODQtNjc2NS00OGNhLWExNjQtYmJkOTAwYzIwNGU5NjM2NzQzMzk4NzkxNDIwOTEz"
     ></div>
-    <script src="https://cdn.snipcart.com/themes/v3.0.5/default/snipcart.js"></script>
+    <script src="https://cdn.snipcart.com/themes/v3.0.11/default/snipcart.js"></script>
   </Css>
 </template>
 
