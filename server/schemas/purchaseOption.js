@@ -10,20 +10,20 @@ export default {
       name: 'material',
       title: 'Material',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'sizes',
       title: 'Sizes',
       type: 'array',
       of: [{ type: 'size' }],
-      options: { editModal: 'popover' }
-    }
+      options: { editModal: 'modal' },
+    },
   ],
   preview: {
     select: {
       title: 'material',
-      sizes: 'sizes'
+      sizes: 'sizes',
     },
     prepare({ title, sizes }) {
       let subtitle = 'No sizes'
@@ -33,8 +33,8 @@ export default {
 
       return {
         title,
-        subtitle
+        subtitle,
       }
-    }
+    },
   },
 }
