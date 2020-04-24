@@ -1,8 +1,8 @@
 const SanityClient = require('@sanity/client')
 
-const sanity = SanityClient({
-  projectId: 'nivdog3o',
-  dataset: 'test',
+const sanityClient = SanityClient({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: process.env.SANITY_DATASET,
   useCdn: true,
 })
 
@@ -28,33 +28,34 @@ const QUERY = `{
   'purchaseOption': ${PURCHASE_OPTION_QUERY}
 }`
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
+  console.log(event.queryStringParameters)
+
   // Snipcart sends a GET request when crawling products
   if (event.httpMethod !== 'GET') {
     return callback(null, {
       statusCode: 400,
-      body: '',
+      body: 'Invalid HTTP method',
     })
   }
 
   const { id } = event.queryStringParameters
   const [photoId, optionKey, sizeKey] = id.split('|')
 
-  sanity
-    .fetch(QUERY, { photoId, optionKey, sizeKey })
-    .then(({ photo, purchaseOption }) => {
-      const { option } = purchaseOption
+  const {
+    photo,
+    purchaseOption: { option },
+  } = await sanityClient.fetch(QUERY, { photoId, optionKey, sizeKey })
 
-      return callback(null, {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: `${photo._id}|${option._key}|${option.size._key}`,
-          price: option.size.price,
-          url: `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${id}`,
-        }),
-      })
-    })
+  return callback(null, {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: `${photo._id}|${option._key}|${option.size._key}`,
+      price: option.size.price,
+      url: `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${id}`,
+    }),
+  })
 }

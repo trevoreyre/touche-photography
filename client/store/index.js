@@ -1,38 +1,8 @@
-import sanity from "~/sanity";
+import sanityClient from '~/sanityClient'
 import Fuse from 'fuse.js'
 
-// Test data
-// TODO: Update initQueryResponse.json
-// import initQueryResponse from '../test-util/initQueryResponse.json'
-// sanity.fetch = query => new Promise((resolve, reject) => {
-//   console.log('query:', query)
-//   if (query === initQuery) {
-//     return resolve(initQueryResponse.result)
-//   }
-// })
-
-// const initQuery = `{
-//   'photos': *[_type == 'photo'] | order(_createdAt desc) {
-//     'id': _id,
-//     title,
-//     'slug': slug.current,
-//     tags,
-//     'image': image.asset-> {
-//       url,
-//       'width': metadata.dimensions.width,
-//       'height': metadata.dimensions.height,
-//       'aspectRatio': metadata.dimensions.height / metadata.dimensions.width,
-//       'placeholder': metadata.lqip
-//     }
-//   },
-//   'config': *[_id == 'global-config'] {
-//     purchaseOptions,
-//     siteName
-//   }
-// }`
-
-const initQuery = `{
-  'photos': *[_type == 'photo'] | order(_createdAt desc) {
+const PHOTOS_QUERY = `
+  *[_type == 'photo'] | order(_createdAt desc) {
     'id': _id,
     title,
     description,
@@ -42,11 +12,19 @@ const initQuery = `{
       'asset': asset->,
       ...
     }
-  },
-  'config': *[_id == 'global-config'] {
+  }
+`
+
+const CONFIG_QUERY = `
+  *[_id == 'global-config'][0] {
     purchaseOptions,
     siteName
   }
+`
+
+const QUERY = `{
+  'photos': ${PHOTOS_QUERY},
+  'config': ${CONFIG_QUERY}
 }`
 
 const options = {
@@ -66,30 +44,30 @@ const state = () => ({
 })
 
 const getters = {
-  searchTags: state => query => {
+  searchTags: (state) => (query) => {
     return state.tagsIndex.search(query)
   },
 
-  searchPhotos: state => query => {
+  searchPhotos: (state) => (query) => {
     return state.photosIndex.search(query)
   },
 
-  getPhoto: state => ({ id, slug }) => {
-    return state.photos.find(photo => {
+  getPhoto: (state) => ({ id, slug }) => {
+    return state.photos.find((photo) => {
       if (id !== undefined) return photo.id === id
       if (slug !== undefined) return photo.slug === slug
     })
   },
 
-  getPurchaseOption: state => key => {
-    return state.config.purchaseOptions.find(option => option._key === key)
+  getPurchaseOption: (state) => (key) => {
+    return state.config.purchaseOptions.find((option) => option._key === key)
   },
 }
 
 const mutations = {
   initialize(state, { photos, config }) {
     const tags = photos.reduce((tags, photo) => {
-      photo.tags = (photo.tags || []).map(tag => tag.toLowerCase().trim())
+      photo.tags = (photo.tags || []).map((tag) => tag.toLowerCase().trim())
       return [...new Set(tags.concat(photo.tags))]
     }, [])
 
@@ -97,13 +75,16 @@ const mutations = {
     state.photos = photos
     state.tags = tags
     state.config = config
-    state.photosIndex = new Fuse(photos, { ...options, keys: ['title', 'tags'] })
+    state.photosIndex = new Fuse(photos, {
+      ...options,
+      keys: ['title', 'tags'],
+    })
 
     // Combine unique tags list and titles from photos for search bar
     state.tagsIndex = new Fuse(
       [
-        ...tags.map(tag => ({ tag })),
-        ...photos.map(photo => ({ title: photo.title.toLowerCase() })),
+        ...tags.map((tag) => ({ tag })),
+        ...photos.map((photo) => ({ title: photo.title.toLowerCase() })),
       ],
       { ...options, keys: ['title', 'tag'] }
     )
@@ -112,16 +93,12 @@ const mutations = {
 
 const actions = {
   async nuxtServerInit({ commit }) {
-    const { photos, config } = await sanity.fetch(initQuery)
+    const { photos, config } = await sanityClient.fetch(QUERY)
 
     // TODO: Remove hard-coded baseUrl
-    config[0]['baseUrl'] = 'https://dev.touchephotography.com'
-    commit({
-      type: 'initialize',
-      photos: photos,
-      config: config[0]
-    })
-  }
+    config['baseUrl'] = 'https://dev.touchephotography.com'
+    commit({ type: 'initialize', photos, config })
+  },
 }
 
 export { state, getters, mutations, actions }

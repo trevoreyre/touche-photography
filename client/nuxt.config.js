@@ -1,5 +1,5 @@
 import path from 'path'
-import sanityClient from './sanity'
+import sanityClient from './sanityClient'
 
 const appSrc = path.join(__dirname, 'src')
 

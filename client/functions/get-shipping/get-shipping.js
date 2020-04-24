@@ -1,28 +1,25 @@
 const util = require('util')
+const SanityClient = require('@sanity/client')
 
-exports.handler = (event, context, callback) => {
-  console.log('get-shipping.js')
-  // Snipcart sends a POST request for shipping information
-  if (event.httpMethod !== 'POST') {
-    return callback(null, {
-      statusCode: 400,
-      body: '',
-    })
-  }
+const sanityClient = SanityClient({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: process.env.SANITY_DATASET,
+  useCdn: true,
+})
 
+exports.handler = async (event, context, callback) => {
   const body = JSON.parse(event.body)
   console.log(util.inspect(body, false, null, true))
 
   const { eventName, content } = body
   if (eventName !== 'shippingrates.fetch') {
     return callback(null, {
-      statusCode: 404,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        error: 'Invalid eventName',
-      }),
+      statusCode: 400,
+      body: 'Invalid event',
     })
   }
+
+  const { items } = content
 
   return callback(null, {
     statusCode: 200,
