@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 -12px -12px -12px;
+}
+
+.checkboxContainer {
+  margin: 12px;
+}

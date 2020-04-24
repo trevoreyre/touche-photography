@@ -13,16 +13,26 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
-    "@sanity/vision"
+    "@sanity/dashboard",
+    "@sanity/vision",
+    "dashboard-widget-netlify"
   ],
   "parts": [
     {
       "name": "part:@sanity/base/schema",
-      "path": "./schemas/schema.js"
+      "path": "./schema.js"
     },
     {
       "name": "part:@sanity/desk-tool/structure",
-      "path": "./deskStructure.js"
+      "path": "./structure.js"
+    },
+    {
+      "name": "part:@sanity/base/initial-value-templates",
+      "path": "./templates.js"
+    },
+    {
+      "implements": "part:@sanity/dashboard/config",
+      "path": "./dashboard.js"
     }
   ],
   "server": {
