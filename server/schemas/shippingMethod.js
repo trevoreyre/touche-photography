@@ -1,9 +1,11 @@
+import { FiTruck } from 'react-icons/fi'
 import SizesInput from '../components/SizesInput'
 
 export default {
   name: 'shippingMethod',
   title: 'Shipping Method',
   type: 'document',
+  icon: FiTruck,
   fields: [
     {
       name: 'product',
@@ -53,11 +55,14 @@ export default {
           preview: {
             select: {
               rate: 'rate',
+              sizes: 'sizes',
             },
-            prepare({ rate }) {
+            prepare({ rate, sizes }) {
+              const count = sizes.length
+
               return {
-                title: rate,
-                subtitle: '',
+                title: `$${rate || '0'}`,
+                subtitle: `${count} size${count > 1 ? 's' : ''}`,
               }
             },
           },
@@ -65,12 +70,5 @@ export default {
         },
       ],
     },
-    // {
-    //   name: 'rates',
-    //   title: 'Rates',
-    //   type: 'array',
-    //   options: { editModal: 'modal' },
-    //   of: [{ type: 'shippingRate' }],
-    // },
   ],
 }

@@ -1,10 +1,10 @@
-import { FiMaximize, FiShoppingBag } from 'react-icons/fi'
+import { FiMaximize, FiTag } from 'react-icons/fi'
 
 export default {
   name: 'product',
   title: 'Product',
   type: 'document',
-  icon: FiShoppingBag,
+  icon: FiTag,
   fields: [
     {
       name: 'name',

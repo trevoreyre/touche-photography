@@ -1,5 +1,4 @@
 import S from '@sanity/desk-tool/structure-builder'
-import { FiImage, FiSettings, FiShoppingBag } from 'react-icons/fi'
 
 export default () =>
   S.list()
@@ -8,22 +7,11 @@ export default () =>
       S.listItem()
         .title('Photos')
         .schemaType('photo')
-        .icon(FiImage)
         .child(S.documentTypeList('photo').title('Photos')),
       S.divider(),
       S.listItem()
-        .title('Settings')
-        .icon(FiSettings)
-        .child(
-          S.editor()
-            .title('Settings')
-            .schemaType('settings')
-            .documentId('settings')
-        ),
-      S.listItem()
         .title('Products')
         .schemaType('product')
-        .icon(FiShoppingBag)
         .child(
           S.documentTypeList('product')
             .title('Products')
@@ -32,15 +20,19 @@ export default () =>
         ),
       S.listItem()
         .title('Shipping')
+        .schemaType('shippingMethod')
         .child(
           S.documentTypeList('product')
-            .title('Shipping')
+            .schemaType('shippingMethod')
+            .title('Edit shipping for product')
             .menuItems()
             .canHandleIntent(() => false)
             .child((productId) =>
               S.documentTypeList('shippingMethod')
+                .schemaType('shippingMethod')
                 .filter('product._ref == $productId')
                 .params({ productId })
+                .menuItems()
                 .initialValueTemplates([
                   S.initialValueTemplateItem('shippingMethodForProduct', {
                     productId,
@@ -49,12 +41,12 @@ export default () =>
             )
         ),
       S.listItem()
-        .title('Config')
-        .icon(FiSettings)
+        .title('Settings')
+        .schemaType('settings')
         .child(
           S.editor()
-            .id('config')
-            .schemaType('config')
-            .documentId('global-config')
+            .title('Settings')
+            .schemaType('settings')
+            .documentId('settings')
         ),
     ])
