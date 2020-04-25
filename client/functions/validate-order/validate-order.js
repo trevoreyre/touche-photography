@@ -11,7 +11,7 @@ const PHOTO_QUERY = `
 `
 
 const PRODUCT_QUERY = `
-  *[_type == 'product && _id == $productId][0] {
+  *[_type == 'product' && _id == $productId][0] {
     _id,
     name,
     'size': sizes[_key == $sizeKey][0] {
