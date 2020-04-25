@@ -10,22 +10,20 @@ const PHOTO_QUERY = `
   *[_type == 'photo' && _id == $photoId][0] { _id, title }
 `
 
-const PURCHASE_OPTION_QUERY = `
-  *[_id == 'global-config'][0] {
-    'option': purchaseOptions[_key == $optionKey][0] {
+const PRODUCT_QUERY = `
+  *[_type == 'product && _id == $productId][0] {
+    _id,
+    name,
+    'size': sizes[_key == $sizeKey][0] {
       _key,
-      material,
-      'size': sizes[_key == $sizeKey][0] {
-        _key,
-        price
-      }
-    },
+      price
+    }
   }
 `
 
 const QUERY = `{
   'photo': ${PHOTO_QUERY},
-  'purchaseOption': ${PURCHASE_OPTION_QUERY}
+  'product': ${PRODUCT_QUERY}
 }`
 
 exports.handler = async (event, context, callback) => {
@@ -40,12 +38,13 @@ exports.handler = async (event, context, callback) => {
   }
 
   const { id } = event.queryStringParameters
-  const [photoId, optionKey, sizeKey] = id.split('|')
+  const [photoId, productId, sizeKey] = id.split('|')
 
-  const {
-    photo,
-    purchaseOption: { option },
-  } = await sanityClient.fetch(QUERY, { photoId, optionKey, sizeKey })
+  const { photo, product } = await sanityClient.fetch(QUERY, {
+    photoId,
+    productId,
+    sizeKey,
+  })
 
   return callback(null, {
     statusCode: 200,
@@ -53,8 +52,8 @@ exports.handler = async (event, context, callback) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      id: `${photo._id}|${option._key}|${option.size._key}`,
-      price: option.size.price,
+      id: `${photo._id}|${product._id}|${product.size._key}`,
+      price: product.size.price,
       url: `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${id}`,
     }),
   })
