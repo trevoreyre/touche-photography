@@ -1,0 +1,5 @@
+[dev]
+  base = "./"
+  command = "yarn start"
+  publish = "dist"
+  functions = "functions"

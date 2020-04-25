@@ -8,7 +8,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "nuxt -p 3002",
-    "dev": "netlify dev --command \"yarn start\" --port 3002 --targetPort 3003 --functionsPort 4005 --functions functions",
+    "dev": "netlify dev --port 3003 --targetPort 3002",
     "build": "nuxt build",
     "serve": "nuxt start -p 3002",
     "generate": "nuxt generate"
@@ -23,6 +23,7 @@
     "vue-masonry-css": "^1.0.3"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "mailgun-js": "^0.22.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0"

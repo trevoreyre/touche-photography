@@ -19,5 +19,6 @@ services:
     ports:
       - '3002:3002'
       - '3003:3003'
+      - '34567:34567'
     stdin_open: true
     tty: true
