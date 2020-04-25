@@ -52,45 +52,42 @@
     },
 
     computed: {
-      ...mapState(['config']),
-      ...mapGetters(['getPhoto', 'getPurchaseOption']),
+      ...mapState(['products']),
+      ...mapGetters(['getPhoto', 'getProduct']),
       photo() {
         return this.getPhoto({ slug: this.slug })
       },
-      selectedOption() {
-        return this.getPurchaseOption(this.$route.query.option)
+      selectedProduct() {
+        return this.getProduct(this.$route.query.product)
       },
       selectedSize() {
-        return this.selectedOption.sizes.find(
-          size => size._key === this.$route.query.size
+        return this.selectedProduct.sizes.find(
+          (size) => size.id === this.$route.query.size
         )
       },
       purchaseId() {
-        return `${this.photo.id}|${this.selectedOption._key}|${this.selectedSize._key}`
+        return `${this.photo.id}|${this.selectedProduct.id}|${this.selectedSize.id}`
       },
       purchaseUrl() {
         // TODO: Get URL from env
         return `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${this.purchaseId}`
       },
+      purchaseMetadata() {
+        return JSON.stringify({ productId: this.selectedProduct.id, sizeKey: this.selectedSize.id })
+      },
       description() {
-        return `${this.selectedOption.material} - ${this.displaySize(
+        return `${this.selectedProduct.name} - ${this.displaySize(
           this.selectedSize
         )}`
       },
     },
 
     methods: {
-      isSelectedOption(option) {
-        return (
-          defaultTo(this.selectedOption, '_key', '') ===
-          defaultTo(option, '_key', '')
-        )
+      isSelectedProduct(product) {
+        return this.selectedProduct?.id === product?.id
       },
       isSelectedSize(size) {
-        return (
-          defaultTo(this.selectedSize, '_key', '') ===
-          defaultTo(size, '_key', '')
-        )
+        return this.selectedSize?.id === size?.id
       },
       displaySize(size) {
         return size ? `${size.width}x${size.height}` : ''
@@ -123,39 +120,41 @@
       <Divider mb="md" />
       <div :class="$style.options">
         <Card
-          v-for="option in config.purchaseOptions"
-          :key="option._key"
+          v-for="product in products"
+          :key="product.id"
           as="nuxt-link"
           :class="[
-            $style.materialOption,
-            { [$style.active]: isSelectedOption(option) },
+            $style.productCard,
+            { [$style.active]: isSelectedProduct(product) },
           ]"
-          :to="{ query: { option: option._key, size: option.sizes[0]._key } }"
+          :to="{ query: { product: product.id, size: product.sizes[0].id } }"
         >
-          <IllustrationDigital v-if="option.material == 'Digital'" />
-          <IllustrationPrint v-if="option.material == 'Print'" />
-          <IllustrationCanvas v-if="option.material == 'Canvas'" />
-          <IllustrationMetal v-if="option.material == 'Metal'" />
-          <Overline :class="$style.material" mt="xs">{{
-            option.material
-          }}</Overline>
-          <Badge v-if="isSelectedOption(option)"><IconCheck size="sm"/></Badge>
+          <IllustrationDigital v-if="product.name === 'Digital'" />
+          <IllustrationPrint v-if="product.name === 'Print'" />
+          <IllustrationCanvas v-if="product.name === 'Canvas'" />
+          <IllustrationMetal v-if="product.name === 'Metal'" />
+          <Overline :class="$style.productName" mt="xs">
+            {{ product.name }}
+          </Overline>
+          <Badge v-if="isSelectedProduct(product)">
+            <IconCheck size="sm" />
+          </Badge>
         </Card>
       </div>
-      <template v-if="selectedOption">
+      <template v-if="selectedProduct">
         <H5>Size</H5>
         <Divider mb="md" />
         <div :class="$style.options">
           <Card
-            v-for="size in selectedOption.sizes"
-            :key="size._key"
+            v-for="size in selectedProduct.sizes"
+            :key="size.id"
             as="nuxt-link"
             :class="[
               $style.sizeOption,
               { [$style.active]: isSelectedSize(size) },
             ]"
             @click="handleClickSize(size)"
-            :to="{ query: { option: selectedOption._key, size: size._key } }"
+            :to="{ query: { product: selectedProduct.id, size: size.id } }"
           >
             <Txt :class="$style.size">{{ displaySize(size) }}</Txt>
             <Txt :class="$style.currency">$</Txt>
@@ -166,8 +165,8 @@
         <Divider mb="md" />
         <div :class="$style.summary">
           <div class="mr-4xl">
-            <H6 as="div" :class="$style.summaryMaterial">
-              {{ selectedOption.material }}
+            <H6 as="div" :class="$style.summaryProduct">
+              {{ selectedProduct.name }}
             </H6>
             <Txt2 as="div" :class="$style.summarySize">
               {{ selectedSize.width }}x{{ selectedSize.height }}
@@ -184,6 +183,7 @@
             :data-item-description="description"
             :data-item-image="photo.image.asset.url"
             :data-item-name="photo.title"
+            :data-item-metadata="purchaseMetadata"
             :disabled="!selectedSize"
             class="snipcart-add-item"
             theme="primary"
@@ -222,12 +222,12 @@
     flex-flow: row wrap;
   }
 
-  .material-option.material-option {
+  .product-card.product-card {
     margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
     padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
   }
 
-  .material {
+  .product-name {
     text-align: center;
     color: var(--text-color-secondary);
   }
@@ -259,7 +259,7 @@
     align-items: center;
   }
 
-  .summary-material {
+  .summary-product {
     min-width: 5ch;
   }
 

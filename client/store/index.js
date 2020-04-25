@@ -15,16 +15,22 @@ const PHOTOS_QUERY = `
   }
 `
 
-const CONFIG_QUERY = `
-  *[_id == 'global-config'][0] {
-    purchaseOptions,
-    siteName
+const PRODUCTS_QUERY = `
+  *[_type == 'product'] {
+    'id': _id,
+    name,
+    sizes[] {
+      'id': _key,
+      width,
+      height,
+      price
+    }
   }
 `
 
 const QUERY = `{
   'photos': ${PHOTOS_QUERY},
-  'config': ${CONFIG_QUERY}
+  'products': ${PRODUCTS_QUERY}
 }`
 
 const options = {
@@ -35,9 +41,9 @@ const options = {
 
 const state = () => ({
   initialized: false,
-  config: {},
   photos: [],
   photosIndex: null,
+  products: [],
   tags: [],
   tagsIndex: null,
   search: () => {},
@@ -59,13 +65,13 @@ const getters = {
     })
   },
 
-  getPurchaseOption: (state) => (key) => {
-    return state.config.purchaseOptions.find((option) => option._key === key)
+  getProduct: (state) => (id) => {
+    return state.products.find((product) => product.id === id)
   },
 }
 
 const mutations = {
-  initialize(state, { photos, config }) {
+  initialize(state, { photos, products }) {
     const tags = photos.reduce((tags, photo) => {
       photo.tags = (photo.tags || []).map((tag) => tag.toLowerCase().trim())
       return [...new Set(tags.concat(photo.tags))]
@@ -74,7 +80,7 @@ const mutations = {
     state.initialized = true
     state.photos = photos
     state.tags = tags
-    state.config = config
+    state.products = products
     state.photosIndex = new Fuse(photos, {
       ...options,
       keys: ['title', 'tags'],
@@ -93,11 +99,9 @@ const mutations = {
 
 const actions = {
   async nuxtServerInit({ commit }) {
-    const { photos, config } = await sanityClient.fetch(QUERY)
+    const { photos, products } = await sanityClient.fetch(QUERY)
 
-    // TODO: Remove hard-coded baseUrl
-    config['baseUrl'] = 'https://dev.touchephotography.com'
-    commit({ type: 'initialize', photos, config })
+    commit({ type: 'initialize', photos, products })
   },
 }
 

@@ -4,7 +4,7 @@ import { Main, PhotoGrid } from '~/components'
 
 export default {
   components: { Main, PhotoGrid },
-  computed: mapState(['photos', 'config']),
+  computed: mapState(['photos']),
 };
 </script>
 

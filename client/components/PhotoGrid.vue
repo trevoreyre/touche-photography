@@ -1,12 +1,12 @@
 <script>
-export default {
-  props: {
-    photos: {
-      type: Array,
-      required: true
-    }
-  },
-}
+  export default {
+    props: {
+      photos: {
+        type: Array,
+        required: true,
+      },
+    },
+  }
 </script>
 
 <template>
@@ -17,7 +17,12 @@ export default {
   >
     <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
       <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
-        <AppImage :class="$style.image" :image="photo.image" :width="416" :alt='photo.title' />
+        <AppImage
+          :class="$style.image"
+          :image="photo.image"
+          :width="416"
+          :alt="photo.title"
+        />
       </NuxtLink>
       <!-- <IconAddToCart :class="$style.icon" /> -->
     </div>
@@ -32,31 +37,31 @@ export default {
 </template>
 
 <style module>
-.photo-grid {
-  margin: 0;
-  padding: 0;
-  column-width: 325px;
-  column-gap: 24px;
-  list-style: none;
-}
-
-.cell {
-  margin: 0 0 24px;
-}
-
-.photo {
-  display: block;
-  break-inside: avoid;
-}
-
-.icon {
-  width: 48px;
-  height: 48px;
-}
-
-@media screen and (max-width: 600px) {
-  .photo-grid .image {
-    border-radius: var(--border-radius-none);
+  .photo-grid {
+    margin: 0;
+    padding: 0;
+    column-width: 325px;
+    column-gap: 24px;
+    list-style: none;
   }
-}
+
+  .cell {
+    margin: 0 0 24px;
+  }
+
+  .photo {
+    display: block;
+    break-inside: avoid;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .photo-grid .image {
+      border-radius: var(--border-radius-none);
+    }
+  }
 </style>
