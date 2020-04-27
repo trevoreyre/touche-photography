@@ -10,12 +10,8 @@
 </script>
 
 <template>
-  <masonry
-    :class="$style.photoGrid"
-    :cols="{ default: 3, 960: 2, 600: 1 }"
-    :gutter="{ default: 24, 960: 16 }"
-  >
-    <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
+  <ul :class="$style.photoGrid">
+    <li v-for="photo in photos" :key="photo.id" :class="$style.cell">
       <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
         <AppImage
           :class="$style.image"
@@ -24,34 +20,27 @@
           :alt="photo.title"
         />
       </NuxtLink>
-      <!-- <IconAddToCart :class="$style.icon" /> -->
-    </div>
-  </masonry>
-  <!-- <div :class="$style.photoGrid">
-    <div v-for="photo in photos" :key="photo.id" :class="$style.cell">
-      <NuxtLink :to="`/photos/${photo.slug}`" :class="$style.photo">
-        <AppImage :image="photo.image" :width="416" :alt='photo.title' />
-      </NuxtLink>
-    </div>
-  </div> -->
+    </li>
+  </ul>
 </template>
 
 <style module>
   .photo-grid {
     margin: 0;
     padding: 0;
-    column-width: 325px;
-    column-gap: 24px;
+    columns: 3;
+    column-gap: var(--spacing-sm);
     list-style: none;
   }
 
   .cell {
-    margin: 0 0 24px;
+    margin: 0 0 var(--spacing-sm);
+    break-inside: avoid;
   }
 
   .photo {
     display: block;
-    break-inside: avoid;
+    border-radius: var(--border-radius-default);
   }
 
   .icon {
@@ -59,7 +48,26 @@
     height: 48px;
   }
 
+  @media screen and (max-width: 960px) {
+    .photo-grid {
+      columns: 2;
+      column-gap: var(--spacing-xs);
+    }
+
+    .cell {
+      margin: 0 0 var(--spacing-xs);
+    }
+  }
+
   @media screen and (max-width: 600px) {
+    .photo-grid {
+      columns: 1;
+    }
+
+    .photo {
+      border-radius: var(--border-radius-none);
+    }
+
     .photo-grid .image {
       border-radius: var(--border-radius-none);
     }
