@@ -118,13 +118,13 @@
     <div :class="$style.details">
       <H5>Material</H5>
       <Divider mb="md" />
-      <div :class="$style.options">
+      <div :class="$style.products">
         <Card
           v-for="product in products"
           :key="product.id"
           as="nuxt-link"
           :class="[
-            $style.productCard,
+            $style.productOption,
             { [$style.active]: isSelectedProduct(product) },
           ]"
           :to="{ query: { product: product.id, size: product.sizes[0].id } }"
@@ -144,7 +144,7 @@
       <template v-if="selectedProduct">
         <H5>Size</H5>
         <Divider mb="md" />
-        <div :class="$style.options">
+        <div :class="$style.sizes">
           <Card
             v-for="size in selectedProduct.sizes"
             :key="size.id"
@@ -157,14 +157,13 @@
             :to="{ query: { product: selectedProduct.id, size: size.id } }"
           >
             <Txt :class="$style.size">{{ displaySize(size) }}</Txt>
-            <Txt :class="$style.currency">$</Txt>
-            <H4 as="div" :class="$style.price">{{ size.price }}</H4>
+            <H4 as="div" :class="$style.price"><sup>$</sup>{{ size.price }}</H4>
             <Badge v-if="isSelectedSize(size)"><IconCheck size="sm"/></Badge>
           </Card>
         </div>
         <Divider mb="md" />
         <div :class="$style.summary">
-          <div class="mr-4xl">
+          <div :class="$style.summaryInfo">
             <H6 as="div" :class="$style.summaryProduct">
               {{ selectedProduct.name }}
             </H6>
@@ -172,11 +171,9 @@
               {{ selectedSize.width }}x{{ selectedSize.height }}
             </Txt2>
           </div>
-          <div :class="[$style.summaryPrice, 'mr-4xl']">
-            <Txt :class="$style.currency">$</Txt>
-            <H4 as="div" :class="$style.price">{{ selectedSize.price }}</H4>
-          </div>
+          <H4 as="div" :class="[$style.summaryPrice, $style.price]"><sup>$</sup>{{ selectedSize.price }}</H4>
           <Button
+            :class="$style.cartButton"
             :data-item-id="purchaseId"
             :data-item-price="selectedSize.price"
             :data-item-url="purchaseUrl"
@@ -205,7 +202,7 @@
 
   .photo {
     margin-right: var(--spacing-3xl);
-    flex: 1;
+    flex: 1 1 600px;
   }
 
   .tags-container {
@@ -213,41 +210,55 @@
   }
 
   .details {
-    flex: 1;
+    flex: 1 1 712px;
   }
 
-  .options {
+  .products {
+    margin-right: calc(-1 * var(--spacing-sm));
+    margin-bottom: calc(var(--spacing-3xl) - var(--spacing-sm));
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .product-option.product-option {
+    margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
+  }
+
+  .product {
+    text-align: center;
+    color: var(--text-color-secondary);
+  }
+
+  .sizes {
+    margin-right: calc(-1 * var(--spacing-xs));
     margin-bottom: var(--spacing-3xl);
     display: flex;
     flex-flow: row wrap;
   }
 
-  .product-card.product-card {
-    margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
-    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
-  }
-
-  .product-name {
-    text-align: center;
-    color: var(--text-color-secondary);
-  }
-
   .size-option.size-option {
-    margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
+    margin: 0 var(--spacing-xs) var(--spacing-xs) 0;
     padding: var(--spacing-xs) var(--spacing-sm);
     display: flex;
     align-items: baseline;
   }
 
   .size {
-    font-weight: 600;
+    flex: 1;
+    min-width: 5ch;
     margin-right: var(--spacing-3xs);
+    font-weight: 600;
     color: var(--text-color-secondary);
   }
 
-  .currency {
+  .price {
+    min-width: 3ch;
+    text-align: right;
+  }
+
+  .price sup {
     font-weight: 600;
-    align-self: flex-start;
   }
 
   .active {
@@ -255,20 +266,17 @@
   }
 
   .summary {
+    margin: 0 calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm));
     display: flex;
+    flex-flow: row wrap;
     align-items: center;
+    justify-content: space-between;
   }
 
-  .summary-product {
-    min-width: 5ch;
-  }
-
-  .summary-price {
-    display: flex;
-  }
-
-  .summary-price .price {
-    min-width: 3ch;
+  .summary-info,
+  .summary-price,
+  .cart-button {
+    margin: 0 var(--spacing-sm) var(--spacing-sm);
   }
 
   @media screen and (max-width: 960px) {
@@ -279,7 +287,14 @@
 
     .photo {
       margin: 0 auto var(--spacing-xl);
-      max-width: 560px;
+      max-width: 680px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .summary .cart-button.cart-button {
+      padding: 0 var(--spacing-sm);
+      min-height: var(--spacing-xl);
     }
   }
 </style>

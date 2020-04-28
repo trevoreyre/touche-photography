@@ -38,7 +38,6 @@ export default {
     },
 
     handleToggleSearch(active) {
-      console.log('handleToggleSearch:', active)
       this.searchActive = active
     }
   },
@@ -66,10 +65,10 @@ export default {
       </div>
       <div :class="$style.icons">
         <ButtonIcon :class="$style.searchButton" theme="secondary" rounded @click="handleToggleSearch(true)">
-          <IconSearch /> Search
+          <IconSearch size="xl" /> Search
         </ButtonIcon>
         <ButtonIcon :class="[$style.checkoutButton, 'snipcart-checkout']" theme="secondary" rounded>
-          <IconCart /> Checkout
+          <IconCart size="xl" /> Checkout
         </ButtonIcon>
       </div>
     </AppBar>
@@ -153,6 +152,11 @@ export default {
   flex: 1;
   margin: 0 var(--spacing-lg);
   max-width: 496px;
+}
+
+.search :global(.autocomplete-input) {
+  padding-top: var(--spacing-2xs);
+  padding-bottom: var(--spacing-2xs);
 }
 
 .search-button.search-button {
