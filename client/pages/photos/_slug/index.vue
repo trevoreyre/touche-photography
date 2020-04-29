@@ -73,7 +73,11 @@
         return `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${this.purchaseId}`
       },
       purchaseMetadata() {
-        return JSON.stringify({ productId: this.selectedProduct.id, sizeKey: this.selectedSize.id })
+        return JSON.stringify({
+          description: this.description,
+          productId: this.selectedProduct.id,
+          sizeKey: this.selectedSize.id,
+        })
       },
       description() {
         return `${this.selectedProduct.name} - ${this.displaySize(
@@ -173,6 +177,8 @@
           </div>
           <H4 as="div" :class="[$style.summaryPrice, $style.price]"><sup>$</sup>{{ selectedSize.price }}</H4>
           <Button
+            as="nuxt-link"
+            to="/"
             :class="$style.cartButton"
             :data-item-id="purchaseId"
             :data-item-price="selectedSize.price"
