@@ -1,36 +1,33 @@
 <script>
-import { mapGetters } from 'vuex'
-import {
-  H2,
-  Txt,
-} from '@slate-ui/core'
-import { Main, PhotoGrid } from '~/components'
+  import { mapGetters } from 'vuex'
+  import { H2, Txt } from '@slate-ui/core'
+  import { Main, PhotoGrid } from '~/components'
 
-export default {
-  components: { H2, Main, PhotoGrid, Txt },
+  export default {
+    components: { H2, Main, PhotoGrid, Txt },
 
-  props: {
-    query: String
-  },
+    props: {
+      query: String,
+    },
 
-  data() {
-    return {
-      results: []
-    };
-  },
+    data() {
+      return {
+        results: [],
+      }
+    },
 
-  computed: {
-    ...mapGetters(['searchPhotos']),
-    resultsLabel() {
-      const label = this.results.length === 1 ? 'result' : 'results'
-      return `${this.results.length} ${label}`
-    }
-  },
+    computed: {
+      ...mapGetters(['searchPhotos']),
+      resultsLabel() {
+        const label = this.results.length === 1 ? 'result' : 'results'
+        return `${this.results.length} ${label}`
+      },
+    },
 
-  mounted() {
-    this.results = this.searchPhotos(this.query).map(result => result.item)
-  },
-};
+    mounted() {
+      this.results = this.searchPhotos(this.query).map((result) => result.item)
+    },
+  }
 </script>
 
 <template>
@@ -44,10 +41,17 @@ export default {
 </template>
 
 <style module>
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: var(--spacing-lg);
-}
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  @media screen and (max-width: 600px) {
+    .header {
+      margin-bottom: var(--spacing-md);
+      padding: 0 var(--spacing-xs);
+    }
+  }
 </style>

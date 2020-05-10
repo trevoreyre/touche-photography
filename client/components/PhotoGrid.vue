@@ -43,19 +43,9 @@
     border-radius: var(--border-radius-default);
   }
 
-  .icon {
-    width: 48px;
-    height: 48px;
-  }
-
   @media screen and (max-width: 960px) {
     .photo-grid {
       columns: 2;
-      column-gap: var(--spacing-xs);
-    }
-
-    .cell {
-      margin: 0 0 var(--spacing-xs);
     }
   }
 

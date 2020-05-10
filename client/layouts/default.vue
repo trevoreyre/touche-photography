@@ -33,10 +33,10 @@
         return result.matches[0].value
       },
 
-      handleSubmit(result = {}) {
+      handleSubmit(result) {
         // TODO: If search term is a photo title, navigate directly to that photo
         this.$router.push(
-          `/search/${result.matches[0].value || this.searchInput}`
+          `/search/${result?.matches?.[0]?.value ?? this.searchInput}`
         )
       },
 
@@ -52,7 +52,6 @@
     <AppBar
       :class="[$style.appBar, { [$style.searchActive]: searchActive }]"
       theme="light"
-      size="md"
     >
       <NuxtLink to="/" :class="$style.logo">
         <Logo />
@@ -151,11 +150,15 @@
 </style>
 
 <style module>
+  /* TODO: Increased specificity needed to override scoped styles. */
+  /* TODO: Refactor slate-ui styling solution. */
+  .app-bar.app-bar {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
   @media screen and (max-width: 960px) {
-    /* TODO: Increased specificity needed to override scoped styles. */
-    /* TODO: Refactor slate-ui styling solution. */
     .app-bar.app-bar {
-      padding: var(--spacing-xs);
+      padding: var(--spacing-xs) var(--spacing-md);
     }
   }
 
@@ -190,6 +193,10 @@
   }
 
   @media screen and (max-width: 600px) {
+    .app-bar.app-bar {
+      padding: var(--spacing-3xs) var(--spacing-xs);
+    }
+
     .search {
       display: none;
       margin: 0;

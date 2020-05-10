@@ -102,21 +102,30 @@
 
 <template>
   <Main :class="$style.root">
-    <div :class="$style.photo">
-      <AppImage :image="photo.image" alt="photo.title" :width="512" />
-      <H2 mt="lg" mb="xs">{{ photo.title }}</H2>
-      <Txt v-if="photo.description" mb="sm">{{ photo.description }}</Txt>
-      <div :class="$style.tagsContainer">
-        <Tag
-          v-for="tag in photo.tags"
-          :key="tag"
-          as="nuxt-link"
-          :to="'/search/' + tag"
-          rounded
-          mr="3xs"
-        >
-          {{ tag }}
-        </Tag>
+    <div :class="$style.photoContainer">
+      <AppImage
+        :class="$style.photo"
+        :image="photo.image"
+        alt="photo.title"
+        :width="512"
+      />
+      <div :class="$style.photoInfo">
+        <H2 :class="$style.photoTitle">{{ photo.title }}</H2>
+        <Txt v-if="photo.description" :class="$style.photoDescription">
+          {{ photo.description }}
+        </Txt>
+        <div :class="$style.tagsContainer">
+          <Tag
+            v-for="tag in photo.tags"
+            :key="tag"
+            as="nuxt-link"
+            :to="'/search/' + tag"
+            rounded
+            mr="3xs"
+          >
+            {{ tag }}
+          </Tag>
+        </div>
       </div>
     </div>
     <div :class="$style.details">
@@ -175,7 +184,9 @@
               {{ selectedSize.width }}x{{ selectedSize.height }}
             </Txt2>
           </div>
-          <H4 as="div" :class="[$style.summaryPrice, $style.price]"><sup>$</sup>{{ selectedSize.price }}</H4>
+          <H4 as="div" :class="[$style.summaryPrice, $style.price]">
+            <sup>$</sup>{{ selectedSize.price }}
+          </H4>
           <Button
             as="nuxt-link"
             to="/"
@@ -203,12 +214,18 @@
 
 <style module>
   .root {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1.18fr;
+    gap: var(--spacing-3xl);
   }
 
-  .photo {
-    margin-right: var(--spacing-3xl);
-    flex: 1 1 600px;
+  .photo-title {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .photo-description {
+    margin-bottom: var(--spacing-sm);
   }
 
   .tags-container {
@@ -216,19 +233,19 @@
   }
 
   .details {
-    flex: 1 1 712px;
+    overflow: hidden;
   }
 
   .products {
-    margin-right: calc(-1 * var(--spacing-sm));
-    margin-bottom: calc(var(--spacing-3xl) - var(--spacing-sm));
-    display: flex;
-    flex-flow: row wrap;
+    margin-bottom: var(--spacing-3xl);
+    display: grid;
+    gap: var(--spacing-sm);
+    grid-template-columns: repeat(auto-fit, 128px);
   }
 
   .product-option.product-option {
-    margin: 0 var(--spacing-sm) var(--spacing-sm) 0;
     padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
+    text-align: center;
   }
 
   .product {
@@ -237,14 +254,13 @@
   }
 
   .sizes {
-    margin-right: calc(-1 * var(--spacing-xs));
     margin-bottom: var(--spacing-3xl);
-    display: flex;
-    flex-flow: row wrap;
+    display: grid;
+    gap: var(--spacing-xs);
+    grid-template-columns: repeat(auto-fit, 159px);
   }
 
   .size-option.size-option {
-    margin: 0 var(--spacing-xs) var(--spacing-xs) 0;
     padding: var(--spacing-xs) var(--spacing-sm);
     display: flex;
     align-items: baseline;
@@ -254,7 +270,7 @@
     flex: 1;
     min-width: 5ch;
     margin-right: var(--spacing-3xs);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: var(--text-color-secondary);
   }
 
@@ -264,7 +280,7 @@
   }
 
   .price sup {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
   }
 
   .active {
@@ -287,17 +303,44 @@
 
   @media screen and (max-width: 960px) {
     .root {
-      display: block;
-      padding: 0 var(--spacing-xs);
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
     }
 
-    .photo {
-      margin: 0 auto var(--spacing-xl);
-      max-width: 680px;
+    .products {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .sizes {
+      margin-bottom: var(--spacing-2xl);
     }
   }
 
   @media screen and (max-width: 600px) {
+    .root {
+      gap: var(--spacing-lg);
+    }
+
+    .photo {
+      border-radius: var(--border-radius-none);
+    }
+
+    .photo-info {
+      padding: 0 var(--spacing-xs);
+    }
+
+    .details {
+      padding: 0 var(--spacing-xs);
+    }
+
+    .products {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .sizes {
+      margin-bottom: var(--spacing-lg);
+    }
+
     .summary .cart-button.cart-button {
       padding: 0 var(--spacing-sm);
       min-height: var(--spacing-xl);
