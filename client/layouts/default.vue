@@ -163,7 +163,7 @@
   }
 
   .logo {
-    border-radius: var(--rounded);
+    border-radius: var(--border-radius-default);
     padding: var(--spacing-4xs);
     height: 48px;
   }

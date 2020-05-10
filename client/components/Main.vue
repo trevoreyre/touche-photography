@@ -10,6 +10,7 @@
     padding: 0 var(--spacing-md);
     width: 100%;
     max-width: calc(var(--content-max-width) + 2 * var(--spacing-md));
+    overflow: hidden;
   }
 
   @media screen and (max-width: 960px) {
