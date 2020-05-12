@@ -147,6 +147,10 @@
   .tag.tag {
     background-color: var(--color-neutral-200);
   }
+
+  strong {
+    --font-weight: var(--font-weight-bold);
+  }
 </style>
 
 <style module>

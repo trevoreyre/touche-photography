@@ -1,11 +1,11 @@
-import { FiTruck } from 'react-icons/fi'
+import { FiPackage } from 'react-icons/fi'
 import SizesInput from '../components/SizesInput'
 
 export default {
   name: 'shippingMethod',
   title: 'Shipping Method',
   type: 'document',
-  icon: FiTruck,
+  icon: FiPackage,
   fields: [
     {
       name: 'product',

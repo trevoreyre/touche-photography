@@ -8,6 +8,10 @@ export default () =>
         .title('Photos')
         .schemaType('photo')
         .child(S.documentTypeList('photo').title('Photos')),
+      S.listItem()
+        .title('Pages')
+        .schemaType('page')
+        .child(S.documentTypeList('page').title('Pages')),
       S.divider(),
       S.listItem()
         .title('Products')
@@ -16,7 +20,6 @@ export default () =>
           S.documentTypeList('product')
             .title('Products')
             .menuItems()
-            .canHandleIntent(() => false)
         ),
       S.listItem()
         .title('Shipping')
@@ -26,7 +29,6 @@ export default () =>
             .schemaType('shippingMethod')
             .title('Edit shipping for product')
             .menuItems()
-            .canHandleIntent(() => false)
             .child((productId) =>
               S.documentTypeList('shippingMethod')
                 .schemaType('shippingMethod')

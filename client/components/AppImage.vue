@@ -1,8 +1,7 @@
 <script>
-  import get from 'lodash/get'
   import sanityImageUrl from '@sanity/image-url'
-  import sanityClient from '~/sanityClient'
   import { marginMixin } from '@slate-ui/core'
+  import sanityClient from '~/sanityClient'
 
   const urlBuilder = sanityImageUrl(sanityClient)
 
@@ -32,11 +31,14 @@
           .height(this.height)
           .url()
       },
+      metadata() {
+        return this.image?.metadata ?? this.image?.asset?.metadata
+      },
       placeholder() {
-        return get(this.image, 'asset.metadata.lqip')
+        return this.metadata?.lqip
       },
       aspectRatio() {
-        return get(this.image, 'asset.metadata.dimensions.aspectRatio', 1)
+        return this.metadata?.dimensions?.aspectRatio ?? 1
       },
       style() {
         return {
@@ -49,7 +51,7 @@
 
 <template>
   <div :class="[$style.appImage, marginClass]" :style="style">
-    <img :class="$style.placeholder" :src="placeholder" />
+    <img v-if="placeholder" :class="$style.placeholder" :src="placeholder" />
     <img :class="$style.image" :src="imageUrl" :alt="alt" />
   </div>
 </template>
@@ -57,6 +59,7 @@
 <style module>
   .app-image {
     border-radius: var(--border-radius-default);
+    max-width: 100%;
     height: 0;
     overflow: hidden;
   }
