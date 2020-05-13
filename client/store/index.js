@@ -1,5 +1,22 @@
+import Vue from 'vue'
 import sanityClient from '~/sanityClient'
 import Fuse from 'fuse.js'
+
+const PAGE_QUERY = `
+  *[_type == 'page' && slug.current == $slug] {
+    'id': _id,
+    title,
+    'slug': slug.current,
+    featuredImage {
+      'asset': asset->,
+      ...,
+    },
+    content[] {
+      'asset': asset->,
+      ...,
+    },
+  }
+`
 
 const PHOTOS_QUERY = `
   *[_type == 'photo'] | order(_createdAt desc) {
@@ -28,7 +45,7 @@ const PRODUCTS_QUERY = `
   }
 `
 
-const QUERY = `{
+const INITIALIZE_QUERY = `{
   'photos': ${PHOTOS_QUERY},
   'products': ${PRODUCTS_QUERY}
 }`
@@ -41,6 +58,7 @@ const options = {
 
 const state = () => ({
   initialized: false,
+  pages: {},
   photos: [],
   photosIndex: null,
   products: [],
@@ -50,6 +68,10 @@ const state = () => ({
 })
 
 const getters = {
+  getPage: (state) => (slug) => {
+    return state.pages[slug]
+  },
+
   searchTags: (state) => (query) => {
     return state.tagsIndex.search(query)
   },
@@ -73,7 +95,7 @@ const getters = {
 const mutations = {
   initialize(state, { photos, products }) {
     const tags = photos.reduce((tags, photo) => {
-      photo.tags = (photo.tags || []).map((tag) => tag.toLowerCase().trim())
+      photo.tags = (photo.tags ?? []).map((tag) => tag.toLowerCase().trim())
       return [...new Set(tags.concat(photo.tags))]
     }, [])
 
@@ -95,13 +117,24 @@ const mutations = {
       { ...options, keys: ['title', 'tag'] }
     )
   },
+
+  setPage(state, { page, slug }) {
+    Vue.set(state.pages, slug, page ?? 404)
+  },
 }
 
 const actions = {
   async nuxtServerInit({ commit }) {
-    const { photos, products } = await sanityClient.fetch(QUERY)
-
+    const { photos, products } = await sanityClient.fetch(INITIALIZE_QUERY)
     commit({ type: 'initialize', photos, products })
+  },
+
+  async fetchPage({ commit, state }, slug) {
+    if (state.pages[slug]) {
+      return
+    }
+    const [page] = await sanityClient.fetch(PAGE_QUERY, { slug })
+    commit({ type: 'setPage', page, slug })
   },
 }
 

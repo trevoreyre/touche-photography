@@ -1,5 +1,6 @@
 export { default as CartBadge } from './CartBadge'
 export { default as ContentBlock } from './ContentBlock'
+export { default as ContentBlocks } from './ContentBlocks'
 export { default as ContentImage } from './ContentImage'
 export { default as ContentLink } from './ContentLink'
 export { default as ContentList } from './ContentList'

@@ -16,7 +16,7 @@
 
       const isHeading = /^h\d/.test(style)
       const As = styleMap[style] ?? P
-      return <As mt={isHeading ? 'lg' : ''} mb="xs">{ children }</As>
+      return <As mt={isHeading ? 'lg' : undefined} mb="xs">{ children }</As>
     },
   }
 </script>

@@ -87,6 +87,7 @@
           </ButtonIcon>
           <CartBadge />
         </span>
+        <NuxtLink to="/about">About</NuxtLink>
       </div>
     </AppBar>
 
