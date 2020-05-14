@@ -1,5 +1,19 @@
+<script>
+  export default {
+    props: {
+      as: {
+        type: String,
+        default: 'a',
+      },
+    },
+  }
+</script>
+
 <template>
-  <a :class="$style.link">
+  <NuxtLink v-if="/nuxt-?link/i.test(as)" :class="$style.link" v-bind="$attrs">
+    <slot></slot>
+  </NuxtLink>
+  <a v-else :class="$style.link" v-bind="$attrs">
     <slot></slot>
   </a>
 </template>

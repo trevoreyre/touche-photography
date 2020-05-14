@@ -1,11 +1,11 @@
 <script>
   import { mapActions, mapGetters } from 'vuex'
   import sanityClient from '~/sanityClient'
-  import { H1 } from '@slate-ui/core'
+  import { H1, H5 } from '@slate-ui/core'
   import { ContentBlocks, Main } from '~/components'
 
   export default {
-    components: { ContentBlocks, H1, Main },
+    components: { ContentBlocks, H1, H5, Main },
 
     props: {
       slug: String,
@@ -29,43 +29,56 @@
 </script>
 
 <template>
-  <H1 v-if="page === undefined">
-    Loading...
-  </H1>
-  <H1 v-else-if="page === 404">
-    404
-  </H1>
-  <Main v-else :class="$style.root">
-    <div>
-      <AppImage :image="page.featuredImage" :width="680" />
-    </div>
-    <div>
+  <Main>
+    <template v-if="page === undefined">
+      <H5 as="p" :class="$style.title">
+        Loading...
+      </H5>
+    </template>
+    <template v-else>
       <H1 as="h1" :class="$style.title">{{ page.title }}</H1>
-      <ContentBlocks :blocks="page.content" :imageWidth="680" />
-    </div>
+      <section :class="$style.section">
+        <div>
+          <AppImage :image="page.featuredImage" :width="680" />
+        </div>
+        <div>
+          <ContentBlocks :blocks="page.content" :imageWidth="680" />
+        </div>
+      </section>
+    </template>
   </Main>
 </template>
 
 <style module>
-  .root {
+  .section {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--spacing-3xl);
   }
 
+  /* TODO: Get rid of this !important */
+  .section h2:first-child {
+    margin-top: var(--spacing-none) !important;
+  }
+
   .title {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+    text-align: center;
   }
 
   @media screen and (max-width: 960px) {
-    .root {
+    .section {
       grid-template-columns: 1fr;
       gap: var(--spacing-2xl);
     }
   }
 
   @media screen and (max-width: 600px) {
-    .root {
+    .title {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .section {
       padding: 0 var(--spacing-xs);
       gap: var(--spacing-lg);
     }

@@ -1,7 +1,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import Fuse from 'fuse.js'
-  import { AppBar, Css, Autocomplete, ButtonIcon } from '@slate-ui/core'
+  import { AppBar, Css, Autocomplete, ButtonIcon, Card } from '@slate-ui/core'
   import { CartBadge, Logo } from '~/components'
 
   export default {
@@ -10,18 +10,32 @@
       Css,
       Autocomplete,
       ButtonIcon,
+      Card,
       CartBadge,
       Logo,
     },
 
     data() {
       return {
+        menuActive: false,
         searchActive: false,
         searchInput: '',
       }
     },
 
     computed: mapGetters(['searchTags']),
+
+    mounted() {
+      if (document) {
+        document.body.addEventListener('click', this.handleClickDocument)
+      }
+    },
+
+    beforeDestroy() {
+      if (document) {
+        document.body.removeEventListener('click', this.handleClickDocument)
+      }
+    },
 
     methods: {
       search(input) {
@@ -42,6 +56,15 @@
 
       handleToggleSearch(active) {
         this.searchActive = active
+      },
+
+      handleToggleMenu(active, event) {
+        event.stopPropagation()
+        this.menuActive = active
+      },
+
+      handleClickDocument(event) {
+        this.handleToggleMenu(false, event)
       },
     },
   }
@@ -87,7 +110,25 @@
           </ButtonIcon>
           <CartBadge />
         </span>
-        <NuxtLink to="/about">About</NuxtLink>
+        <ButtonIcon
+          theme="secondary"
+          rounded
+          @click="handleToggleMenu(true, $event)"
+        >
+          <IconMore size="xl" /> More
+        </ButtonIcon>
+        <Card
+          as="ul"
+          py="3xs"
+          px="none"
+          :class="[$style.menu, { [$style.menuActive]: menuActive }]"
+        >
+          <li>
+            <NuxtLink to="/about" :class="$style.menuItem">
+              About
+            </NuxtLink>
+          </li>
+        </Card>
       </div>
     </AppBar>
 
@@ -159,6 +200,26 @@
   /* TODO: Refactor slate-ui styling solution. */
   .app-bar.app-bar {
     padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .menu {
+    display: none;
+    position: absolute;
+    right: var(--spacing-xs);
+    z-index: 1;
+  }
+
+  .menu-active {
+    display: block;
+  }
+
+  .menu-item {
+    display: block;
+    padding: var(--spacing-3xs) var(--spacing-sm);
+  }
+
+  .menu-item:hover {
+    background: var(--color-background-dark);
   }
 
   @media screen and (max-width: 960px) {

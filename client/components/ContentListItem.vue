@@ -1,6 +1,6 @@
 <template functional>
   <li :class="$style.listItem">
-    <slot></slot> <IconCheck size="lg" :class="$style.icon" />
+    <slot></slot>
   </li>
 </template>
 
@@ -10,14 +10,16 @@
     margin-bottom: var(--spacing-3xs);
   }
 
-  .icon.icon {
+  .list-item::before {
+    --border: var(--border-active);
+    content: "";
+    display: block;
     position: absolute;
+    width: var(--spacing-xs);
+    height: var(--spacing-xs);
     left: 0;
     top: 50%;
     border-radius: var(--border-radius-full);
-    padding: var(--spacing-4xs);
-    background: var(--color-brand-700);
-    fill: var(--color-text-primary-on-brand-primary);
     transform: translate3d(0, -50%, 0);
   }
 </style>
