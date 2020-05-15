@@ -36,7 +36,8 @@
 </template>
 
 <style module>
+  /* TODO: Get rid of !important flag */
   .hidden.hidden {
-    display: none;
+    display: none !important;
   }
 </style>

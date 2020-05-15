@@ -26,7 +26,7 @@
 
 <style module>
   .photo-grid {
-    margin: 0;
+    margin: calc(-1 * var(--spacing-4xs)) 0;
     padding: 0;
     columns: 3;
     column-gap: var(--spacing-sm);
@@ -34,7 +34,8 @@
   }
 
   .cell {
-    margin: 0 0 var(--spacing-sm);
+    margin: 0 0 calc(var(--spacing-sm) - var(--spacing-4xs));
+    padding: var(--spacing-4xs) 0;
     break-inside: avoid;
   }
 

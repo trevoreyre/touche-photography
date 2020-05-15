@@ -59,12 +59,14 @@
       },
 
       handleToggleMenu(active, event) {
-        event.stopPropagation()
+        if (event) {
+          event.stopPropagation()
+        }
         this.menuActive = active
       },
 
       handleClickDocument(event) {
-        this.handleToggleMenu(false, event)
+        this.handleToggleMenu(false)
       },
     },
   }
@@ -281,11 +283,7 @@
       display: none;
     }
 
-    .search-active .checkout-button {
-      display: none;
-    }
-
-    .search-active .search-button {
+    .search-active .icons {
       display: none;
     }
   }

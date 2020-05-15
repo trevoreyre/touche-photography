@@ -65,7 +65,7 @@ export default {
     },
   },
   generate: {
-    fallback: true,
+    // fallback: true,
     routes: async function() {
       const { photoSlugs, pageSlugs } = await sanityClient.fetch(`{
         'photoSlugs': *[_type == 'photo'].slug.current,
