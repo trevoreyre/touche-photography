@@ -36,6 +36,11 @@ export default {
   },
   css: ['@slate-ui/core/style.css'],
   buildModules: ['@nuxtjs/dotenv'],
+  env: {
+    SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
+    SANITY_DATASET: process.env.SANITY_DATASET,
+    SITE_URL: process.env.SITE_URL
+  },
   build: {
     cache: true,
     babel: {
