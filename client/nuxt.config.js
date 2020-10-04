@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import path from 'path'
 import sanityClient from './sanityClient'
 
@@ -34,6 +35,7 @@ export default {
     // }
   },
   css: ['@slate-ui/core/style.css'],
+  buildModules: ['@nuxtjs/dotenv'],
   build: {
     cache: true,
     babel: {

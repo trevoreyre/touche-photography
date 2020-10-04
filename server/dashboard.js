@@ -6,7 +6,7 @@ export default {
         title: 'Deploy website',
         sites: [
           {
-            title: 'dev.touchephotography.com',
+            title: 'touchephotography.com',
             apiId: process.env.NETLIFY_API_ID,
             buildHookId: process.env.NETLIFY_BUILD_HOOK_ID,
             name: process.env.NETLIFY_WEBSITE_NAME,

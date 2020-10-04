@@ -5,7 +5,14 @@
   },
   "api": {
     "projectId": "nivdog3o",
-    "dataset": "test"
+    "dataset": "production"
+  },
+  "env": {
+    "development": {
+      "api": {
+        "dataset": "development"
+      }
+    }
   },
   "plugins": [
     "@sanity/base",

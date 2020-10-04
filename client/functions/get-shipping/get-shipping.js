@@ -71,6 +71,4 @@ exports.handler = async (event, context, callback) => {
       rates: Object.values(rates),
     }),
   })
-  {
-  }
 }

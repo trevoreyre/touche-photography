@@ -54,7 +54,7 @@ exports.handler = async (event, context, callback) => {
     body: JSON.stringify({
       id: `${photo._id}|${product._id}|${product.size._key}`,
       price: product.size.price,
-      url: `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${id}`,
+      url: `${process.env.SITE_URL}/.netlify/functions/validate-order?id=${id}`,
     }),
   })
 }

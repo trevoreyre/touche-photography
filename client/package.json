@@ -23,6 +23,7 @@
     "sanity-blocks-vue-component": "^0.1.0"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "dotenv": "^8.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0"

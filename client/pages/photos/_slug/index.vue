@@ -69,8 +69,7 @@
         return `${this.photo.id}|${this.selectedProduct.id}|${this.selectedSize.id}`
       },
       purchaseUrl() {
-        // TODO: Get URL from env
-        return `https://dev.touchephotography.com/.netlify/functions/validate-order?id=${this.purchaseId}`
+        return `${process.env.SITE_URL}/.netlify/functions/validate-order?id=${this.purchaseId}`
       },
       purchaseMetadata() {
         return JSON.stringify({
