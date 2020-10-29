@@ -39,7 +39,8 @@ export default {
   env: {
     SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
     SANITY_DATASET: process.env.SANITY_DATASET,
-    SITE_URL: process.env.SITE_URL
+    SNIPCART_API_KEY: process.env.SNIPCART_API_KEY,
+    SITE_URL: process.env.SITE_URL,
   },
   build: {
     cache: true,
