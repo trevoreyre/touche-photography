@@ -1,9 +1,8 @@
 [build]
   environment = { NODE_VERSION = "12", AWS_LAMBDA_JS_RUNTIME = "nodejs12.x" }
-  base = "client"
-  command = "yarn generate"
-  publish = "client/dist"
-  functions = "client/functions"
 
 [dev]
+  base = "client"
   command = "yarn start"
+  publish = "client/dist"
+  functions = "client/functions"
