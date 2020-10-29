@@ -20,6 +20,7 @@
         menuActive: false,
         searchActive: false,
         searchInput: '',
+        snipcartApiKey: process.env.SNIPCART_API_KEY
       }
     },
 
@@ -137,9 +138,9 @@
     <nuxt />
 
     <div
-      hidden
       id="snipcart"
-      data-api-key="ZjczZjI0ODQtNjc2NS00OGNhLWExNjQtYmJkOTAwYzIwNGU5NjM2NzQzMzk4NzkxNDIwOTEz"
+      hidden
+      :data-api-key="snipcartApiKey"
     ></div>
     <script src="https://cdn.snipcart.com/themes/v3.0.11/default/snipcart.js"></script>
   </Css>
