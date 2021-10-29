@@ -1,3 +1,6 @@
+[build]
+  environment = { NODE_VERSION = "14", AWS_LAMBDA_JS_RUNTIME = "nodejs14.x" }
+
 [dev]
   base = "./"
   command = "yarn start"
