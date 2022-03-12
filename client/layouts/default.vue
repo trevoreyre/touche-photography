@@ -2,7 +2,7 @@
   import { mapGetters } from 'vuex'
   import Fuse from 'fuse.js'
   import { AppBar, Css, Autocomplete, ButtonIcon, Card } from '@slate-ui/core'
-  import { CartBadge, Logo } from '~/components'
+  import { Logo } from '~/components'
 
   export default {
     components: {
@@ -11,7 +11,6 @@
       Autocomplete,
       ButtonIcon,
       Card,
-      CartBadge,
       Logo,
     },
 
@@ -20,7 +19,6 @@
         menuActive: false,
         searchActive: false,
         searchInput: '',
-        snipcartApiKey: process.env.SNIPCART_API_KEY
       }
     },
 
@@ -103,16 +101,6 @@
         >
           <IconSearch size="xl" /> Search
         </ButtonIcon>
-        <span :class="$style.checkoutContainer">
-          <ButtonIcon
-            :class="[$style.checkoutButton, 'snipcart-checkout']"
-            theme="secondary"
-            rounded
-          >
-            <IconCart size="xl" /> Checkout
-          </ButtonIcon>
-          <CartBadge />
-        </span>
         <ButtonIcon
           theme="secondary"
           rounded
@@ -127,22 +115,13 @@
           :class="[$style.menu, { [$style.menuActive]: menuActive }]"
         >
           <li>
-            <NuxtLink to="/about" :class="$style.menuItem">
-              About
-            </NuxtLink>
+            <NuxtLink to="/about" :class="$style.menuItem">About</NuxtLink>
           </li>
         </Card>
       </div>
     </AppBar>
 
     <nuxt />
-
-    <div
-      id="snipcart"
-      hidden
-      :data-api-key="snipcartApiKey"
-    ></div>
-    <script src="https://cdn.snipcart.com/themes/v3.0.11/default/snipcart.js"></script>
   </Css>
 </template>
 

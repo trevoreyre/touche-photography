@@ -65,23 +65,8 @@
           (size) => size.id === this.$route.query.size
         )
       },
-      purchaseId() {
-        return `${this.photo.id}|${this.selectedProduct.id}|${this.selectedSize.id}`
-      },
-      purchaseUrl() {
-        return `${process.env.SITE_URL}/.netlify/functions/validate-order?id=${this.purchaseId}`
-      },
-      purchaseMetadata() {
-        return JSON.stringify({
-          description: this.description,
-          productId: this.selectedProduct.id,
-          sizeKey: this.selectedSize.id,
-        })
-      },
-      description() {
-        return `${this.selectedProduct.name} - ${this.displaySize(
-          this.selectedSize
-        )}`
+      checkoutUrl() {
+        return `${process.env.SITE_URL}/.netlify/functions/create-checkout-session`
       },
     },
 
@@ -101,11 +86,11 @@
 
 <template>
   <Main :class="$style.root">
-    <div :class="$style.photoContainer">
+    <div>
       <AppImage
         :class="$style.photo"
         :image="photo.image"
-        alt="photo.title"
+        :alt="photo.title"
         :width="512"
       />
       <div :class="$style.photoInfo">
@@ -170,7 +155,7 @@
           >
             <Txt :class="$style.size">{{ displaySize(size) }}</Txt>
             <H4 as="div" :class="$style.price"><sup>$</sup>{{ size.price }}</H4>
-            <Badge v-if="isSelectedSize(size)"><IconCheck size="sm"/></Badge>
+            <Badge v-if="isSelectedSize(size)"><IconCheck size="sm" /></Badge>
           </Card>
         </div>
         <Divider mb="md" />
@@ -186,25 +171,22 @@
           <H4 as="div" :class="[$style.summaryPrice, $style.price]">
             <sup>$</sup>{{ selectedSize.price }}
           </H4>
-          <Button
-            as="nuxt-link"
-            to="/"
-            :class="$style.cartButton"
-            :data-item-id="purchaseId"
-            :data-item-price="selectedSize.price"
-            :data-item-url="purchaseUrl"
-            :data-item-description="description"
-            :data-item-image="photo.image.asset.url"
-            :data-item-name="photo.title"
-            :data-item-metadata="purchaseMetadata"
-            :disabled="!selectedSize"
-            class="snipcart-add-item"
-            theme="primary"
-            size="lg"
-            rounded
-          >
-            <IconCartAdd mr="3xs" /> Add to cart
-          </Button>
+          <form :action="checkoutUrl" method="POST">
+            <input hidden name="photoId" :value="photo.id" />
+            <input hidden name="productId" :value="selectedProduct.id" />
+            <input hidden name="sizeKey" :value="selectedSize.id" />
+            <Button
+              :class="$style.cartButton"
+              :disabled="!selectedSize"
+              theme="primary"
+              size="lg"
+              rounded
+              type="submit"
+            >
+              <IconCart mr="3xs" />
+              Buy photo
+            </Button>
+          </form>
         </div>
       </template>
     </div>
@@ -214,7 +196,7 @@
 <style module>
   .root {
     display: grid;
-    grid-template-columns: 1fr 1.18fr;
+    grid-template-columns: 1.3fr 1fr;
     gap: var(--spacing-3xl);
   }
 
@@ -233,7 +215,8 @@
 
   .products {
     margin-bottom: var(--spacing-3xl);
-    margin: 0 calc(-1 * var(--spacing-sm)) calc(var(--spacing-3xl) - var(--spacing-sm)) 0;
+    margin: 0 calc(-1 * var(--spacing-sm))
+      calc(var(--spacing-3xl) - var(--spacing-sm)) 0;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
@@ -251,7 +234,8 @@
   }
 
   .sizes {
-    margin: 0 calc(-1 * var(--spacing-xs)) calc(var(--spacing-3xl) - var(--spacing-xs)) 0;
+    margin: 0 calc(-1 * var(--spacing-xs))
+      calc(var(--spacing-3xl) - var(--spacing-xs)) 0;
     display: flex;
     flex-flow: row wrap;
     align-items: center;

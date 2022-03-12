@@ -15,12 +15,6 @@ export default {
       { name: 'theme-color', content: '#009c8d' },
     ],
     link: [
-      // Snipcart styling. JavaScript file is included in default layout.
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: 'https://cdn.snipcart.com/themes/v3.0.11/default/snipcart.css',
-      },
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
@@ -60,7 +54,6 @@ export default {
   env: {
     SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
     SANITY_DATASET: process.env.SANITY_DATASET,
-    SNIPCART_API_KEY: process.env.SNIPCART_API_KEY,
     SITE_URL: process.env.SITE_URL,
   },
   build: {
@@ -95,7 +88,7 @@ export default {
   },
   generate: {
     // fallback: true,
-    routes: async function() {
+    routes: async function () {
       const { photoSlugs, pageSlugs } = await sanityClient.fetch(`{
         'photoSlugs': *[_type == 'photo'].slug.current,
         'pageSlugs': *[_type == 'page'].slug.current,
