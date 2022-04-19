@@ -54,8 +54,9 @@ const QUERY = `{
   'shippingMethods': ${SHIPPING_METHODS_QUERY}
 }`
 
-exports.handler = async (event) => {
-  const params = new URLSearchParams(event.body)
+exports.handler = async ({ headers, body }) => {
+  const { origin } = headers
+  const params = new URLSearchParams(body)
   const photoId = params.get('photoId')
   const productId = params.get('productId')
   const sizeKey = params.get('sizeKey')
@@ -68,8 +69,8 @@ exports.handler = async (event) => {
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
-    success_url: `${process.env.SITE_URL}/confirmation?session={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.SITE_URL}/photos/${photo.slug}?product=${productId}&size=${sizeKey}`,
+    success_url: `${origin}/confirmation?session={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}/photos/${photo.slug}?product=${productId}&size=${sizeKey}`,
     metadata: {
       photoId,
       productId,

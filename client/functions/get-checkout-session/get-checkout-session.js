@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_API_KEY)
 
-exports.handler = async (event, context) => {
-  const { sessionId } = event.queryStringParameters
+exports.handler = async ({ queryStringParameters }) => {
+  const { sessionId } = queryStringParameters
   const session = await stripe.checkout.sessions.retrieve(sessionId)
 
   return {

@@ -6,3 +6,8 @@
   command = "yarn start"
   publish = "client/dist"
   functions = "client/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

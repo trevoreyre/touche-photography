@@ -56,9 +56,7 @@
     },
 
     mounted() {
-      fetch(
-        `${process.env.SITE_URL}/.netlify/functions/get-checkout-session?sessionId=${this.$route.query.session}`
-      )
+      fetch(`/api/get-checkout-session?sessionId=${this.$route.query.session}`)
         .then((response) => response.json())
         .then((session) => {
           this.session = session

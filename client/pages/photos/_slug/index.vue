@@ -65,9 +65,6 @@
           (size) => size.id === this.$route.query.size
         )
       },
-      checkoutUrl() {
-        return `${process.env.SITE_URL}/.netlify/functions/create-checkout-session`
-      },
     },
 
     methods: {
@@ -171,7 +168,7 @@
           <H4 as="div" :class="[$style.summaryPrice, $style.price]">
             <sup>$</sup>{{ selectedSize.price }}
           </H4>
-          <form :action="checkoutUrl" method="POST">
+          <form action="/api/create-checkout-session" method="POST">
             <input hidden name="photoId" :value="photo.id" />
             <input hidden name="productId" :value="selectedProduct.id" />
             <input hidden name="sizeKey" :value="selectedSize.id" />
