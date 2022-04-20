@@ -20,7 +20,8 @@
     "fuse.js": "^3.4.5",
     "lodash": "^4.17.19",
     "nuxt": "^2.10.1",
-    "sanity-blocks-vue-component": "^0.1.0"
+    "sanity-blocks-vue-component": "^0.1.0",
+    "stripe": "^8.208.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
